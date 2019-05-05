@@ -20,7 +20,7 @@ public class PropertiesManager {
         try (InputStream resource = PropertiesManager
                 .class
                 .getClassLoader()
-                .getResourceAsStream("application.properties")) {
+                .getResourceAsStream("app")) {
             PROPERTIES.load(resource);
         }
     }

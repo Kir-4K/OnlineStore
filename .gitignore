@@ -2,7 +2,8 @@
 *.directory
 *target
 *out
+*sql
+*app
 .idea
 web.xml
 checkstyle.xml
-application.properties
