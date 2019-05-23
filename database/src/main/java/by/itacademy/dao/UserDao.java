@@ -1,16 +1,13 @@
 package by.itacademy.dao;
 
+import by.itacademy.entity.Role;
 import by.itacademy.entity.User;
-import by.itacademy.utilDatabase.ConnectionPool;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -18,29 +15,82 @@ public class UserDao {
 
     private static final UserDao INSTANCE = new UserDao();
 
-    private static final String FIND_ALL = "SELECT * FROM online_store.user";
+    private static final SessionFactory FACTORY = new Configuration().configure().buildSessionFactory();
 
-    @SneakyThrows
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                User fromResultSet = getResultSet(resultSet);
-                users.add(fromResultSet);
-            }
+    public User findById(Long id) {
+        try (Session session = FACTORY.openSession()) {
+            return session.get(User.class, id);
         }
-        return users;
     }
 
-    private by.itacademy.entity.User getResultSet(ResultSet resultSet) throws SQLException {
-        return by.itacademy.entity.User.builder()
-                .id(resultSet.getInt("id"))
-                .login(resultSet.getString("user_login"))
-                .password(resultSet.getString("user_pass"))
-                .role(resultSet.getString("role"))
-                .build();
+    public User findCurrentUser(String login, String password) {
+        try (Session session = FACTORY.openSession()) {
+            return session.createQuery("SELECT u FROM User u WHERE u.login =:login AND u.password = :password", User.class)
+                    .setParameter("login", login)
+                    .setParameter("password", password)
+                    .getSingleResult();
+        }
+    }
+
+    public List<User> findAll() {
+        try (Session session = FACTORY.openSession()) {
+            return session.
+                    createQuery("SELECT u FROM User u", User.class)
+                    .list();
+        }
+    }
+
+    public List<User> getAllCustomer() {
+        try (Session session = FACTORY.openSession()) {
+            return session
+                    .createQuery("SELECT u FROM User u WHERE u.role =:userRole", User.class)
+                    .setParameter("userRole", Role.CUSTOMER)
+                    .list();
+        }
+    }
+
+    public void save(User user) {
+        try (Session session = FACTORY.openSession()) {
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+        }
+    }
+
+    public void update(User user) {
+        try (Session session = FACTORY.openSession()) {
+            session.beginTransaction();
+            session.update(user);
+            session.getTransaction().commit();
+        }
+    }
+
+    public Integer updatePassword(User login, String newPassword) {
+        try (Session session = FACTORY.openSession()) {
+            session.beginTransaction();
+            return session.createQuery("UPDATE User u SET u.password =:newPassword WHERE u.login =:login")
+                    .setParameter("login", login.getLogin())
+                    .setParameter("newPassword", newPassword)
+                    .executeUpdate();
+        }
+    }
+
+    public Integer updateLogin(User login, String newLogin) {
+        try (Session session = FACTORY.openSession()) {
+            session.beginTransaction();
+            return session.createQuery("UPDATE User u SET u.login =:newLogin WHERE u.login =:login")
+                    .setParameter("login", login.getLogin())
+                    .setParameter("newLogin", newLogin)
+                    .executeUpdate();
+        }
+    }
+
+    public void delete(User user) {
+        try (Session session = FACTORY.openSession()) {
+            session.beginTransaction();
+            session.delete(user);
+            session.getTransaction().commit();
+        }
     }
 
     public static UserDao getInstance() {
