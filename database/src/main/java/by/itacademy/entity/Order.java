@@ -12,13 +12,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -26,29 +27,31 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = {"customer", "news"})
+@ToString(exclude = "productOrders")
 @Entity
-@Table(name = "user", schema = "online_store", catalog = "online_store_repository")
-public class User implements BaseEntity<Long> {
+@Table(name = "online_order", schema = "online_store", catalog = "online_store_repository")
+public class Order implements BaseEntity<Long> {
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "login", nullable = false, length = 64, unique = true)
-    private String login;
-
-    @Column(name = "password", nullable = false, length = 64)
-    private String password;
-
-    @Column(name = "role", nullable = false, length = 16)
+    @Column(name = "payment", nullable = true, length = 16)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Payment payment;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @Column(name = "date", nullable = false)
+    private LocalDateTime date;
+
+    @Column(name = "status", nullable = true, length = 16)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<News> news;
+    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProductOrder> productOrders;
 }

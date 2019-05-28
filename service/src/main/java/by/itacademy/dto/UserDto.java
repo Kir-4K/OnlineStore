@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class UserDto {
 
+    private Long id;
     private String login;
     private String password;
 }

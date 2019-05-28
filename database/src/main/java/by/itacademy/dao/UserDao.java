@@ -1,16 +1,11 @@
 package by.itacademy.dao;
 
+import by.itacademy.entity.Role;
 import by.itacademy.entity.User;
-import by.itacademy.utilDatabase.ConnectionPool;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
+import org.hibernate.Session;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -18,29 +13,28 @@ public class UserDao {
 
     private static final UserDao INSTANCE = new UserDao();
 
-    private static final String FIND_ALL = "SELECT * FROM online_store.user";
-
-    @SneakyThrows
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                User fromResultSet = getResultSet(resultSet);
-                users.add(fromResultSet);
-            }
-        }
-        return users;
+    public User findById(Session session, Long id) {
+        return session.get(User.class, id);
     }
 
-    private by.itacademy.entity.User getResultSet(ResultSet resultSet) throws SQLException {
-        return by.itacademy.entity.User.builder()
-                .id(resultSet.getInt("id"))
-                .login(resultSet.getString("user_login"))
-                .password(resultSet.getString("user_pass"))
-                .role(resultSet.getString("role"))
-                .build();
+    public User findCurrentUser(Session session, String login, String password) {
+        return session.createQuery("SELECT u FROM User u WHERE u.login =:login AND u.password = :password", User.class)
+                .setParameter("login", login)
+                .setParameter("password", password)
+                .getSingleResult();
+    }
+
+    public List<User> findAll(Session session) {
+        return session.
+                createQuery("SELECT u FROM User u", User.class)
+                .list();
+    }
+
+    public List<User> getAllCustomer(Session session) {
+        return session
+                .createQuery("SELECT u FROM User u WHERE u.role =:userRole", User.class)
+                .setParameter("userRole", Role.CUSTOMER)
+                .list();
     }
 
     public static UserDao getInstance() {

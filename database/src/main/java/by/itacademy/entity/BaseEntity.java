@@ -1,6 +1,8 @@
 package by.itacademy.entity;
 
-public interface BaseEntity<ID> {
+import java.io.Serializable;
 
-    ID getId();
+public interface BaseEntity<T extends Serializable> {
+
+    T getId();
 }

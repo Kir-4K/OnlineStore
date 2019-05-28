@@ -7,7 +7,7 @@
 <body>
 <div>
     <c:forEach var="user" items="${requestScope.user}">
-        <p>Login: ${user.login} - pass: ${user.password};</p>
+        <p>Login: ${user.login} - ${user.password};</p>
     </c:forEach>
 </div>
 </body>
