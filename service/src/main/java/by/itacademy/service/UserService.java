@@ -17,7 +17,7 @@ public class UserService {
     private static final UserService INSTANCE = new UserService();
     private UserDao userDao = UserDao.getInstance();
     private UserMapper userMapper = UserMapper.getInstance();
-    private Session session = ConnectionManager.getFactory().openSession();
+    private Session session = ConnectionManager.getFactory();
 
     public User findById(Long id) {
         return userDao.findById(session, id);
