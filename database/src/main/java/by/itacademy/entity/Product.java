@@ -19,14 +19,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
 
-@Entity
-@Table(name = "product", schema = "online_store", catalog = "online_store_repository")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = "productOrders")
+@Entity
+@Table(name = "product", schema = "online_store", catalog = "online_store_repository")
 public class Product implements BaseEntity<Long> {
 
     @Id
@@ -49,10 +49,10 @@ public class Product implements BaseEntity<Long> {
     @Column(name = "description", nullable = true, length = 1024)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProductOrder> productOrders;
 }

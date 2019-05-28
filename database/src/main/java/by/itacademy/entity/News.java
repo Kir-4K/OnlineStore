@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,13 +16,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "news", schema = "online_store", catalog = "online_store_repository")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Entity
+@Table(name = "news", schema = "online_store", catalog = "online_store_repository")
 public class News implements BaseEntity<Long> {
 
     @Id
@@ -40,7 +39,7 @@ public class News implements BaseEntity<Long> {
     @Column(name = "text", nullable = false, columnDefinition = "TEXT")
     private String text;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

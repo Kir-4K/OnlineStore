@@ -5,20 +5,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
-@Embeddable
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class ProductOrderPK implements Serializable {
 
-    @Column(name = "order_id")
-    private Long orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Order order;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Product product;
 }

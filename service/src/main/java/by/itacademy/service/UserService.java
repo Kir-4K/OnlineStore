@@ -4,8 +4,10 @@ import by.itacademy.dao.UserDao;
 import by.itacademy.dto.UserDto;
 import by.itacademy.entity.User;
 import by.itacademy.mapper.UserMapper;
+import by.itacademy.util.ConnectionManager;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.Session;
 
 import java.util.List;
 
@@ -15,29 +17,30 @@ public class UserService {
     private static final UserService INSTANCE = new UserService();
     private UserDao userDao = UserDao.getInstance();
     private UserMapper userMapper = UserMapper.getInstance();
+    private Session session = ConnectionManager.getFactory().openSession();
 
     public User findById(Long id) {
-        return userDao.findById(id);
+        return userDao.findById(session, id);
     }
 
     public List<User> findAll() {
-        return userDao.findAll();
+        return userDao.findAll(session);
     }
 
     public List<User> getAllCustomer() {
-        return userDao.getAllCustomer();
+        return userDao.getAllCustomer(session);
     }
 
     public void save(UserDto dto) {
-        userDao.save(userMapper.mapToEntity(dto));
+        session.save(userMapper.mapToEntity(dto));
     }
 
     public void delete(UserDto dto) {
-        userDao.delete(userMapper.mapToEntity(dto));
+        session.delete(userMapper.mapToEntity(dto));
     }
 
     public void update(UserDto dto) {
-        userDao.update(userMapper.mapToEntity(dto));
+        session.update(userMapper.mapToEntity(dto));
     }
 
     public static UserService getInstance() {

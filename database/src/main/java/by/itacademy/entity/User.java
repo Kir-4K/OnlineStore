@@ -21,14 +21,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Set;
 
-@Entity
-@Table(name = "user", schema = "online_store", catalog = "online_store_repository")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {"customer", "news"})
+@Entity
+@Table(name = "user", schema = "online_store", catalog = "online_store_repository")
 public class User implements BaseEntity<Long> {
 
     @Id

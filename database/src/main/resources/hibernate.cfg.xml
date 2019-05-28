@@ -17,7 +17,6 @@
         <mapping class="by.itacademy.entity.Address"/>
         <mapping class="by.itacademy.entity.User"/>
         <mapping class="by.itacademy.entity.News"/>
-        <mapping class="by.itacademy.entity.OrderData"/>
         <mapping class="by.itacademy.entity.Customer"/>
         <mapping class="by.itacademy.entity.Order"/>
         <mapping class="by.itacademy.entity.Category"/>

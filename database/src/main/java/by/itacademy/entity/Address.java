@@ -17,14 +17,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
 
-@Entity
-@Table(name = "address", schema = "online_store", catalog = "online_store_repository")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = "customers")
+@Entity
+@Table(name = "address", schema = "online_store", catalog = "online_store_repository")
 public class Address implements BaseEntity<Long> {
 
     @Id

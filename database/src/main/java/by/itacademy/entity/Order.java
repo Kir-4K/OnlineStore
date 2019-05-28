@@ -22,14 +22,14 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Entity
-@Table(name = "online_order", schema = "online_store", catalog = "online_store_repository")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = "productOrders")
+@Entity
+@Table(name = "online_order", schema = "online_store", catalog = "online_store_repository")
 public class Order implements BaseEntity<Long> {
 
     @Id
@@ -48,10 +48,10 @@ public class Order implements BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProductOrder> productOrders;
 }
