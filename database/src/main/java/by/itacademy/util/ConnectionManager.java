@@ -10,7 +10,11 @@ public class ConnectionManager {
 
     private static final SessionFactory FACTORY = new Configuration().configure().buildSessionFactory();
 
-    public static Session getFactory() {
+    public static SessionFactory getFactory() {
+        return FACTORY;
+    }
+
+    public static Session getSession() {
         return FACTORY.openSession();
     }
 }

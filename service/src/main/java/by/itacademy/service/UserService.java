@@ -5,22 +5,31 @@ import by.itacademy.dto.UserDto;
 import by.itacademy.entity.User;
 import by.itacademy.mapper.UserMapper;
 import by.itacademy.util.ConnectionManager;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 
 import java.util.List;
 
+import static by.itacademy.entity.QUser.user;
+import static by.itacademy.entity.Role.CUSTOMER;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserService {
 
     private static final UserService INSTANCE = new UserService();
-    private UserDao userDao = UserDao.getInstance();
+    private Session session = ConnectionManager.getSession();
     private UserMapper userMapper = UserMapper.getInstance();
-    private Session session = ConnectionManager.getFactory();
+    private UserDao userDao = UserDao.getInstance();
 
     public User findById(Long id) {
-        return userDao.findById(session, id);
+        return userDao.findById(session, id).orElse(null);
+    }
+
+    public User findCurrentUser(String login, String password) {
+        BooleanExpression expression = user.login.eq(login).and(user.password.eq(password));
+        return userDao.findOne(session, expression);
     }
 
     public List<User> findAll() {
@@ -28,7 +37,8 @@ public class UserService {
     }
 
     public List<User> getAllCustomer() {
-        return userDao.getAllCustomer(session);
+        BooleanExpression expression = user.role.eq(CUSTOMER);
+        return userDao.findAll(session, expression);
     }
 
     public void save(UserDto dto) {

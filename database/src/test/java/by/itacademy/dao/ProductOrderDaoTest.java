@@ -4,6 +4,7 @@ import by.itacademy.entity.Order;
 import by.itacademy.entity.Product;
 import by.itacademy.entity.ProductOrder;
 import by.itacademy.entity.ProductOrderPK;
+import by.itacademy.util.ConnectionManager;
 import by.itacademy.util.TestDataImporter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,18 +14,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.is;
 
 public class ProductOrderDaoTest {
 
+    private static SessionFactory sessionFactory = ConnectionManager.getFactory();
     private ProductOrderDao productOrderDao = ProductOrderDao.getInstance();
     private OrderDao orderDao = OrderDao.getInstance();
     private ProductDao productDao = ProductDao.getInstance();
-    private static SessionFactory sessionFactory;
 
     @BeforeClass
     public static void initDb() {
@@ -46,9 +48,9 @@ public class ProductOrderDaoTest {
             Long productId = 1L;
 
             ProductOrderPK pk = getProductOrderPK(session, orderId, productId);
-            ProductOrder productOrder = productOrderDao.findById(session, pk);
-            assertThat(productOrder.getId().getOrder().getId(), equalTo(orderId));
-            assertThat(productOrder.getId().getProduct().getId(), equalTo(productId));
+            Optional<ProductOrder> productOrder = productOrderDao.findById(session, pk);
+            assertThat(productOrder.get().getId().getOrder().getId(), equalTo(orderId));
+            assertThat(productOrder.get().getId().getProduct().getId(), equalTo(productId));
 
             session.getTransaction().commit();
         }
@@ -79,9 +81,9 @@ public class ProductOrderDaoTest {
             ProductOrder save = getProductOrder(pk, quantity);
             session.save(save);
 
-            ProductOrder byId = productOrderDao.findById(session, save.getId());
-            assertThat(byId.getQuantity(), equalTo(quantity));
-            assertThat(byId.getId().getProduct().getName(), equalTo("Святая вода"));
+            Optional<ProductOrder> productOrder = productOrderDao.findById(session, save.getId());
+            assertThat(productOrder.get().getQuantity(), equalTo(quantity));
+            assertThat(productOrder.get().getId().getProduct().getName(), equalTo("Святая вода"));
 
             session.getTransaction().commit();
         }
@@ -100,9 +102,9 @@ public class ProductOrderDaoTest {
             ProductOrder update = getProductOrder(pk, quantity);
             session.update(update);
 
-            ProductOrder byId = productOrderDao.findById(session, update.getId());
-            assertThat(byId.getQuantity(), equalTo(2));
-            assertThat(byId.getId().getProduct().getName(), equalTo("Святая вода"));
+            Optional<ProductOrder> productOrder = productOrderDao.findById(session, update.getId());
+            assertThat(productOrder.get().getQuantity(), equalTo(2));
+            assertThat(productOrder.get().getId().getProduct().getName(), equalTo("Святая вода"));
 
             session.getTransaction().commit();
         }
@@ -121,8 +123,8 @@ public class ProductOrderDaoTest {
             ProductOrder delete = getProductOrder(pk, quantity);
             session.delete(delete);
 
-            ProductOrder byId = productOrderDao.findById(session, delete.getId());
-            assertThat(byId, nullValue());
+            Optional<ProductOrder> productOrder = productOrderDao.findById(session, delete.getId());
+            assertThat(productOrder.isPresent(), is(false));
 
             session.getTransaction().commit();
         }
@@ -136,11 +138,11 @@ public class ProductOrderDaoTest {
     }
 
     private ProductOrderPK getProductOrderPK(Session session, Long orderId, Long productId) {
-        Order order = orderDao.findById(session, orderId);
-        Product product = productDao.findById(session, productId);
+        Optional<Order> order = orderDao.findById(session, orderId);
+        Optional<Product> product = productDao.findById(session, productId);
         return ProductOrderPK.builder()
-                .order(order)
-                .product(product)
+                .order(order.get())
+                .product(product.get())
                 .build();
     }
 }

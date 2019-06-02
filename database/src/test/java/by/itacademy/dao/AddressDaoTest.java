@@ -1,6 +1,7 @@
 package by.itacademy.dao;
 
 import by.itacademy.entity.Address;
+import by.itacademy.util.ConnectionManager;
 import by.itacademy.util.TestDataImporter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,13 +10,15 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 public class AddressDaoTest {
 
+    private static SessionFactory sessionFactory = ConnectionManager.getFactory();
     private AddressDao addressDao = AddressDao.getInstance();
-    private static SessionFactory sessionFactory;
 
     @BeforeClass
     public static void initDb() {
@@ -33,8 +36,8 @@ public class AddressDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            Address address = addressDao.findById(session, 1L);
-            assertThat(address.getCity(), equalTo("Минск"));
+            Optional<Address> address = addressDao.findById(session, 1L);
+            assertThat(address.get().getCity(), equalTo("Минск"));
 
             session.getTransaction().commit();
         }
@@ -53,8 +56,8 @@ public class AddressDaoTest {
                     .build();
             session.save(save);
 
-            Address address = addressDao.findById(session, save.getId());
-            assertThat(address.getApartment(), equalTo("19"));
+            Optional<Address> address = addressDao.findById(session, save.getId());
+            assertThat(address.get().getApartment(), equalTo("19"));
 
             session.getTransaction().commit();
         }
@@ -74,8 +77,8 @@ public class AddressDaoTest {
                     .build();
             session.update(update);
 
-            Address address = addressDao.findById(session, update.getId());
-            assertThat(address.getApartment(), equalTo("35"));
+            Optional<Address> address = addressDao.findById(session, update.getId());
+            assertThat(address.get().getApartment(), equalTo("35"));
 
             session.getTransaction().commit();
         }

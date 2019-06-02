@@ -3,6 +3,7 @@ package by.itacademy.dao;
 import by.itacademy.entity.Address;
 import by.itacademy.entity.Customer;
 import by.itacademy.entity.User;
+import by.itacademy.util.ConnectionManager;
 import by.itacademy.util.TestDataImporter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.contains;
@@ -21,10 +23,10 @@ import static org.junit.Assert.assertThat;
 
 public class CustomerDaoTest {
 
+    private static SessionFactory sessionFactory = ConnectionManager.getFactory();
     private CustomerDao customerDao = CustomerDao.getInstance();
     private AddressDao addressDao = AddressDao.getInstance();
     private UserDao userDao = UserDao.getInstance();
-    private static SessionFactory sessionFactory;
 
     @BeforeClass
     public static void initDb() {
@@ -42,8 +44,8 @@ public class CustomerDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            Customer customer = customerDao.findById(session, 1L);
-            assertThat(customer.getMail(), equalTo("ivan@mail.com"));
+            Optional<Customer> customer = customerDao.findById(session, 1L);
+            assertThat(customer.get().getMail(), equalTo("ivan@mail.com"));
 
             session.getTransaction().commit();
         }
@@ -73,9 +75,9 @@ public class CustomerDaoTest {
                     .build();
             session.save(save);
 
-            Customer customer = customerDao.findById(session, save.getId());
-            assertThat(customer.getPhone(), equalTo("80(29)221-35-18"));
-            assertThat(customer.getMail(), nullValue());
+            Optional<Customer> customer = customerDao.findById(session, save.getId());
+            assertThat(customer.get().getPhone(), equalTo("80(29)221-35-18"));
+            assertThat(customer.get().getMail(), nullValue());
 
             session.getTransaction().commit();
         }
@@ -86,22 +88,22 @@ public class CustomerDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            User user = userDao.findById(session, 1L);
-            Address address = addressDao.findById(session, 2L);
+            Optional<User> user = userDao.findById(session, 1L);
+            Optional<Address> address = addressDao.findById(session, 2L);
             Customer save = Customer.builder()
                     .firstName("Павел")
                     .lastName("Павлович")
                     .middleName("Александрович")
                     .phone("80(29)221-35-28")
                     .mail("pavel@mail.com")
-                    .user(user)
-                    .address(address)
+                    .user(user.get())
+                    .address(address.get())
                     .build();
             session.save(save);
 
-            Customer customer = customerDao.findById(session, save.getId());
-            assertThat(customer.getPhone(), equalTo("80(29)221-35-28"));
-            assertThat(customer.getUser().getLogin(), equalTo("Admin"));
+            Optional<Customer> customer = customerDao.findById(session, save.getId());
+            assertThat(customer.get().getPhone(), equalTo("80(29)221-35-28"));
+            assertThat(customer.get().getUser().getLogin(), equalTo("Admin"));
 
             session.getTransaction().commit();
         }
@@ -120,9 +122,9 @@ public class CustomerDaoTest {
                     .build();
             session.update(update);
 
-            Customer customer = customerDao.findById(session, update.getId());
-            assertThat(customer.getMail(), equalTo("olga@mail.com"));
-            assertThat(customer.getFirstName(), equalTo("Ольга"));
+            Optional<Customer> customer = customerDao.findById(session, update.getId());
+            assertThat(customer.get().getMail(), equalTo("olga@mail.com"));
+            assertThat(customer.get().getFirstName(), equalTo("Ольга"));
 
             session.getTransaction().commit();
         }
