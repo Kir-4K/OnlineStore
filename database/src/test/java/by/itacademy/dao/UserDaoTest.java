@@ -1,8 +1,11 @@
 package by.itacademy.dao;
 
+import by.itacademy.dto.FilterDto;
 import by.itacademy.entity.Role;
 import by.itacademy.entity.User;
+import by.itacademy.util.ConnectionManager;
 import by.itacademy.util.TestDataImporter;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -11,7 +14,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
+import static by.itacademy.entity.QUser.user;
+import static by.itacademy.entity.Role.ADMIN;
+import static by.itacademy.entity.Role.CUSTOMER;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -20,8 +27,8 @@ import static org.junit.Assert.assertThat;
 
 public class UserDaoTest {
 
+    private static SessionFactory sessionFactory = ConnectionManager.getFactory();
     private UserDao userDao = UserDao.getInstance();
-    private static SessionFactory sessionFactory;
 
     @BeforeClass
     public static void initDb() {
@@ -39,8 +46,8 @@ public class UserDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            User user = userDao.findById(session, 1L);
-            assertThat(user.getLogin(), equalTo("Admin"));
+            Optional<User> user = userDao.findById(session, 1L);
+            assertThat(user.get().getLogin(), equalTo("Admin"));
 
             session.getTransaction().commit();
         }
@@ -63,7 +70,9 @@ public class UserDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            User user = userDao.findCurrentUser(session, "SuperAdmin", "admin");
+            BooleanExpression expression = user.login.eq("SuperAdmin").and(user.password.eq("admin"));
+
+            User user = userDao.findOne(session, expression);
             assertThat(user.getLogin(), equalTo("SuperAdmin"));
 
             session.getTransaction().commit();
@@ -75,7 +84,11 @@ public class UserDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            List<User> allCustomer = userDao.getAllCustomer(session);
+            FilterDto filter = FilterDto.builder()
+                    .predicates(user.role.eq(CUSTOMER))
+                    .build();
+
+            List<User> allCustomer = userDao.findAll(session, filter);
             List<String> loginList = allCustomer.stream().map(User::getLogin).collect(toList());
             assertThat(loginList, hasSize(3));
             assertThat(loginList, contains("Ivan", "Max", "Pavel"));
@@ -89,11 +102,11 @@ public class UserDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            User save = getUser("Pavel", "pavel", Role.CUSTOMER);
+            User save = getUser("Pavel", "pavel", CUSTOMER);
             session.save(save);
 
-            User user = userDao.findById(session, save.getId());
-            assertThat(user.getLogin(), equalTo("Pavel"));
+            Optional<User> user = userDao.findById(session, save.getId());
+            assertThat(user.get().getLogin(), equalTo("Pavel"));
 
             session.getTransaction().commit();
         }
@@ -112,12 +125,12 @@ public class UserDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            User update = getUserById(1L, "SuperAdmin", "admin", Role.ADMIN);
+            User update = getUserById(1L, "SuperAdmin", "admin", ADMIN);
             session.update(update);
 
-            User user = userDao.findById(session, update.getId());
-            assertThat(user.getLogin(), equalTo("SuperAdmin"));
-            assertThat(user.getPassword(), equalTo("admin"));
+            Optional<User> user = userDao.findById(session, update.getId());
+            assertThat(user.get().getLogin(), equalTo("SuperAdmin"));
+            assertThat(user.get().getPassword(), equalTo("admin"));
 
             session.getTransaction().commit();
         }

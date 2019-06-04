@@ -14,7 +14,7 @@ public class UserMapper {
 
     public UserDto mapToDto(User entity) {
         return UserDto.builder()
-                .id(entity.getId())
+                .id(String.valueOf(entity.getId()))
                 .login(entity.getLogin())
                 .password(entity.getPassword())
                 .build();

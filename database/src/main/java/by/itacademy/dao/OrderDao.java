@@ -1,28 +1,23 @@
 package by.itacademy.dao;
 
 import by.itacademy.entity.Order;
+import by.itacademy.entity.QOrder;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hibernate.Session;
 
-import java.util.List;
+import static by.itacademy.entity.QOrder.order;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OrderDao {
+public class OrderDao implements BaseDao<Long, Order>, BaseFilter<Long, Order, QOrder> {
 
     private static final OrderDao INSTANCE = new OrderDao();
 
-    public Order findById(Session session, Long id) {
-        return session.get(Order.class, id);
-    }
-
-    public List<Order> findAll(Session session) {
-        return session.
-                createQuery("SELECT o FROM Order o", Order.class)
-                .list();
-    }
-
     public static OrderDao getInstance() {
         return INSTANCE;
+    }
+
+    @Override
+    public QOrder getQEntity() {
+        return order;
     }
 }
