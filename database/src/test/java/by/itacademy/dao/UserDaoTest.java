@@ -1,5 +1,6 @@
 package by.itacademy.dao;
 
+import by.itacademy.dto.FilterDto;
 import by.itacademy.entity.Role;
 import by.itacademy.entity.User;
 import by.itacademy.util.ConnectionManager;
@@ -83,9 +84,11 @@ public class UserDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            BooleanExpression expression = user.role.eq(CUSTOMER);
+            FilterDto filter = FilterDto.builder()
+                    .predicates(user.role.eq(CUSTOMER))
+                    .build();
 
-            List<User> allCustomer = userDao.findAll(session, expression);
+            List<User> allCustomer = userDao.findAll(session, filter);
             List<String> loginList = allCustomer.stream().map(User::getLogin).collect(toList());
             assertThat(loginList, hasSize(3));
             assertThat(loginList, contains("Ivan", "Max", "Pavel"));

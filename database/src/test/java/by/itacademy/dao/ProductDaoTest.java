@@ -1,13 +1,11 @@
 package by.itacademy.dao;
 
+import by.itacademy.dto.FilterDto;
 import by.itacademy.dto.LimitOffsetDto;
 import by.itacademy.entity.Category;
 import by.itacademy.entity.Product;
-import by.itacademy.entity.QProduct;
 import by.itacademy.util.ConnectionManager;
 import by.itacademy.util.TestDataImporter;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -76,9 +74,11 @@ public class ProductDaoTest {
             session.beginTransaction();
 
             Optional<Category> category = categoryDao.findById(session, 1L);
-            BooleanExpression expression = product.category.eq(category.get());
+            FilterDto filter = FilterDto.builder()
+                    .predicates(product.category.eq(category.get()))
+                    .build();
 
-            List<Product> products = productDao.findAll(session, expression);
+            List<Product> products = productDao.findAll(session, filter);
             List<String> list = products.stream().map(Product::getName).collect(toList());
             assertThat(products, hasSize(3));
             assertThat(list, containsInAnyOrder("Святая вода", "Весельчак", "Ласточка"));
@@ -92,9 +92,12 @@ public class ProductDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            BooleanExpression expression = product.price.between(0, 10);
+            FilterDto filter = FilterDto.builder()
+                    .predicates(product.price.goe(0))
+                    .predicates(product.price.loe(10))
+                    .build();
 
-            List<Product> products = productDao.findAll(session, expression);
+            List<Product> products = productDao.findAll(session, filter);
             assertThat(products, hasSize(1));
 
             session.getTransaction().commit();
@@ -106,10 +109,12 @@ public class ProductDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            OrderSpecifier<Double> orderByPrice = QProduct.product.price.desc();
-            OrderSpecifier<String> orderByName = QProduct.product.name.desc();
+            FilterDto filter = FilterDto.builder()
+                    .specifiers(product.name.desc())
+                    .specifiers(product.price.desc())
+                    .build();
 
-            List<Product> products = productDao.findAll(session, orderByPrice, orderByName);
+            List<Product> products = productDao.findAll(session, filter);
             List<String> list = products.stream().map(Product::getName).collect(toList());
             assertThat(list, contains("Святая вода", "Весельчак", "Кровь утопца"));
 
@@ -122,12 +127,14 @@ public class ProductDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            LimitOffsetDto limitOffset = LimitOffsetDto.builder()
-                    .limit(2L)
-                    .offset(1L)
+            FilterDto filter = FilterDto.builder()
+                    .limitOffset(LimitOffsetDto.builder()
+                            .limit(2L)
+                            .offset(1L)
+                            .build())
                     .build();
 
-            List<Product> products = productDao.findAll(session, limitOffset);
+            List<Product> products = productDao.findAll(session, filter);
             List<String> list = products.stream().map(Product::getName).collect(toList());
             assertThat(products, hasSize(2));
             assertThat(list, contains("Весельчак", "Кровь утопца"));

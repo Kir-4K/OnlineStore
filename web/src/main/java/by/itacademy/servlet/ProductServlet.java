@@ -1,8 +1,8 @@
 package by.itacademy.servlet;
 
+import by.itacademy.dto.FilterDto;
 import by.itacademy.dto.LimitOffsetDto;
 import by.itacademy.entity.Product;
-import by.itacademy.entity.QProduct;
 import by.itacademy.service.ProductService;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -20,6 +20,7 @@ import static by.itacademy.servlet.util.StringFormatter.limitToLong;
 import static by.itacademy.servlet.util.StringFormatter.maxToDouble;
 import static by.itacademy.servlet.util.StringFormatter.minToDouble;
 import static by.itacademy.servlet.util.StringFormatter.offsetToLong;
+import static by.itacademy.servlet.util.StringFormatter.ratingToDouble;
 import static java.util.Optional.ofNullable;
 
 
@@ -37,17 +38,25 @@ public class ProductServlet extends HttpServlet {
         String limit = ofNullable(req.getParameter("limit")).orElse(EMPTY);
         String offset = ofNullable(req.getParameter("offset")).orElse(EMPTY);
 
-        if (!(limit.equals(EMPTY) && offset.equals(EMPTY))) {
-            LimitOffsetDto limitOffsetDto = getLimitOffsetDto(limit, offset);
-            getProductList(req, productService.findAll(limitOffsetDto));
-        } else if (!(maxPrice.equals(EMPTY) && minPrice.equals(EMPTY))) {
-            BooleanExpression expression = product.price.between(minToDouble(minPrice), maxToDouble(maxPrice));
-            getProductList(req, productService.findAll(expression));
-        } else {
-            OrderSpecifier<Double> orderByPrice = QProduct.product.price.desc();
-            getProductList(req, productService.findAll(orderByPrice));
-        }
+        String category = ofNullable(req.getParameter("category")).orElse(EMPTY);
+        String rating = ofNullable(req.getParameter("rating")).orElse(EMPTY);
 
+        if (!(category.equals(EMPTY) && rating.equals(EMPTY))) {
+            LimitOffsetDto limitOffsetDto = getLimitOffsetDto(limit, offset);
+            BooleanExpression expression = product.price.goe(minToDouble(minPrice))
+                    .and(product.price.loe(maxToDouble(maxPrice)))
+                    .and(product.category.name.eq(category))
+                    .and(product.rating.goe(ratingToDouble(rating)));
+            OrderSpecifier<Double> specifier = product.rating.desc();
+            FilterDto filterDto = FilterDto.builder()
+                    .predicates(expression)
+                    .limitOffset(limitOffsetDto)
+                    .specifiers(specifier)
+                    .build();
+            getProductList(req, productService.findAll(filterDto));
+        } else {
+            getProductList(req, productService.findAll());
+        }
         getRequest(req, resp);
     }
 

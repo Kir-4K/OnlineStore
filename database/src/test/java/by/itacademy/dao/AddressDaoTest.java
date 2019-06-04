@@ -37,7 +37,8 @@ public class AddressDaoTest {
             session.beginTransaction();
 
             Optional<Address> address = addressDao.findById(session, 1L);
-            assertThat(address.get().getCity(), equalTo("Минск"));
+            String town = address.map(Address::getCity).orElse("Empty");
+            assertThat(town, equalTo("Минск"));
 
             session.getTransaction().commit();
         }

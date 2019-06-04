@@ -1,6 +1,7 @@
 package by.itacademy.service;
 
 import by.itacademy.dao.UserDao;
+import by.itacademy.dto.FilterDto;
 import by.itacademy.dto.UserDto;
 import by.itacademy.entity.User;
 import by.itacademy.mapper.UserMapper;
@@ -37,8 +38,10 @@ public class UserService {
     }
 
     public List<User> getAllCustomer() {
-        BooleanExpression expression = user.role.eq(CUSTOMER);
-        return userDao.findAll(session, expression);
+        FilterDto filter = FilterDto.builder()
+                .predicates(user.role.eq(CUSTOMER))
+                .build();
+        return userDao.findAll(session, filter);
     }
 
     public void save(UserDto dto) {

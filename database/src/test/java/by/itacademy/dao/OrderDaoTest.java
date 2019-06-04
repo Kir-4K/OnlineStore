@@ -1,11 +1,11 @@
 package by.itacademy.dao;
 
+import by.itacademy.dto.FilterDto;
 import by.itacademy.entity.Customer;
 import by.itacademy.entity.Order;
 import by.itacademy.entity.Status;
 import by.itacademy.util.ConnectionManager;
 import by.itacademy.util.TestDataImporter;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -75,9 +75,11 @@ public class OrderDaoTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            BooleanExpression expression = order.status.eq(UNPROCESSED);
+            FilterDto filter = FilterDto.builder()
+                    .predicates(order.status.eq(UNPROCESSED))
+                    .build();
 
-            List<Order> orders = orderDao.findAll(session, expression);
+            List<Order> orders = orderDao.findAll(session, filter);
             List<Status> list = orders.stream().map(Order::getStatus).collect(toList());
             assertThat(orders, hasSize(2));
             assertThat(list, contains(UNPROCESSED, UNPROCESSED));
