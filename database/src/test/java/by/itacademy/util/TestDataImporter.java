@@ -29,11 +29,11 @@ public final class TestDataImporter {
             Category potion = saveCategory(session, "Зелья");
             Category ingredient = saveCategory(session, "Ингредиенты");
 
-            Product holyWater = saveProduct(session, "Святая вода", potion, 12.5, 9, 4.0,
+            Product holyWater = saveProduct(session, "Святая вода", potion, 22.5, 9, 4.0,
                     "Может, убить оборотня или вампира и не сможет, но Ваш организм точно прочистит.");
-            Product jollier = saveProduct(session, "Весельчак", potion, 15.2, 3, 5.0,
+            Product jollier = saveProduct(session, "Весельчак", potion, 15.75, 3, 5.0,
                     "Прекрасное зелье, которое скрасит не один осенний вечерок.");
-            Product monsterBlood = saveProduct(session, "Кровь утопца", ingredient, 5.0, 21, 4.5,
+            Product monsterBlood = saveProduct(session, "Кровь утопца", ingredient, 5.25, 21, 4.5,
                     "Ингредиент для многих чернокнижных зелий.");
 
             User admin = saveUser(session, "Admin", "admin", Role.ADMIN);

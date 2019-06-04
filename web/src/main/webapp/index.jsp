@@ -1,5 +1,8 @@
 <html>
 <body>
-<h2><a href="${pageContext.request.contextPath}/user">Show all users</a></h2>
+<h2>
+    <a href="${pageContext.request.contextPath}/user">Show all users</a>
+    <a href="${pageContext.request.contextPath}/products">Show all products</a>
+</h2>
 </body>
 </html>
