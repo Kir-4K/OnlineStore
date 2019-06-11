@@ -5,7 +5,7 @@
     <title>Store</title>
 </head>
 <body>
-<form name="price" method="get" action="${pageContext.request.contextPath}/products">
+<form method="get" action="${pageContext.request.contextPath}/products">
     <fieldset>
         <label>
             <input type="text" name="minPrice" placeholder="Min price" value="${param.minPrice}">
@@ -13,14 +13,8 @@
         <label>
             <input type="text" name="maxPrice" placeholder="Max price" value="${param.maxPrice}">
         </label>
-        <label>
-            <input type="text" name="limit" placeholder="Limit" value="${param.limit}">
-        </label>
-        <label>
-            <input type="text" name="offset" placeholder="Offset" value="${param.offset}">
-        </label>
         <label>Выберите категорию:
-            <select name="category" required>
+            <select name="category">
                 <option value="Зелья">Зелья</option>
                 <option value="Ингредиенты">Ингредиенты</option>
             </select>
@@ -36,9 +30,35 @@
     </fieldset>
 </form>
 <div>
-    <c:forEach var="productExpression" items="${sessionScope.productExpression}">
-        <p>Товар: ${productExpression}</p>
+    <c:forEach var="products" items="${sessionScope.products}">
+        <p>Товар: ${products}</p>
     </c:forEach>
 </div>
+<form method="post" action="${pageContext.request.contextPath}/products">
+    <fieldset>
+        <div>
+            <label>Выберите количество товаров на странице:
+                <select name="size">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                </select>
+            </label>
+        </div>
+        <div>
+            <label>Выберите страницу:
+                <select name="page">
+                    <option value="0">1</option>
+                    <option value="1">2</option>
+                    <option value="2">3</option>
+                    <option value="3">4</option>
+                </select>
+            </label>
+        </div>
+        <div>
+            <input type="submit" value="Done"><br>
+        </div>
+    </fieldset>
+</form>
 </body>
 </html>
