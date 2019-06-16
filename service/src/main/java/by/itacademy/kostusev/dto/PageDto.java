@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class PageDto {
 
-    private Integer size;
     private Integer page;
+    private Integer size;
 }

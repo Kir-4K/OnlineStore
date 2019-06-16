@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="shortcut icon" th:href="@{img/potion.png}" type="image/x-icon">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{css/products.css}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css">
+</head>
+<body>
+
+<div class="w3-main">
+
+    <!-- Header -->
+    <div class="w3-top">
+        <div class="w3-bar">
+            <div class="header">
+                <a class="auth_item locale" href="" th:text="#{login.toHome}">Home</a>
+                <a class="auth_item locale" href="">
+                    <img th:src="@{img/en.png}" width="26" height="26" alt="name"/>
+                </a>
+                <a class="auth_item locale" href="">
+                    <img th:src="@{img/ru.png}" width="26" height="26" alt="name"/>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo -->
+    <br><br>
+    <div class="w3-container">
+        <a href="" title="Home">
+            <p class="logo">
+                <img th:src="@{img/cauldron.png}" alt="Home">
+            </p>
+        </a>
+    </div>
+
+    <!-- Menu -->
+    <div>
+        <ul class="menu">
+            <li class="dropdown"><a href="" th:text="#{login.toHome}">HOME</a></li>
+            <li class="dropdown"><a href="" th:text="#{menu.products}">PRODUCTS</a>
+                <ul class="submenu">
+                    <li class="dropdown"><a href="" th:text="#{menu.potion}">POTIONS</a></li>
+                    <li class="dropdown"><a href="" th:text="#{menu.ingredients}">INGREDIENTS</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a href="">NEWS</a></li>
+            <li class="dropdown"><a href="">CONTACTS</a></li>
+        </ul>
+    </div>
+
+    <!-- Filter -->
+    <div class="w3-bottombar w3-padding-16">
+        <form class="w3-section w3-center" method="get" action="/products">
+            <label>Минимальная цена:
+                <input class="w3-input w3-gray" type="text" name="minPrice" placeholder="Min price"
+                       th:value="${param.minPrice}">
+            </label>
+            <label>—</label>
+            <label>Максимальная цена:
+                <input class="w3-input w3-gray" type="text" name="maxPrice" placeholder="Max price"
+                       th:value="${param.maxPrice}">
+            </label>
+            <label>Выберите категорию:
+                <select name="category" class="w3-select w3-gray">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="Зелья">Зелья</option>
+                    <option value="Ингредиенты">Ингредиенты</option>
+                </select>
+            </label>
+            <label>Выберите рейтинг:
+                <select name="rating" class="w3-select w3-gray">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">1 звезда и выше</option>
+                    <option value="3">3 звезды и выше</option>
+                    <option value="5">5 звезд</option>
+                </select>
+            </label>
+            <button class="w3-button w3-border w3-hover-lime w3-round"> Done</button>
+        </form>
+    </div>
+
+    <!-- Products -->
+    <div class="w3-row-padding w3-padding-16">
+        <div th:each="product: ${products}" class="w3-quarter w3-container w3-margin-bottom">
+            <div class="img-container">
+                <img th:src="@{${'/img/products/' + product.name + '.png'}}" class="w3-hover-opacity"/>
+            </div>
+            <div class="w3-container w3-white">
+                <p><b th:text="${product.name}">name</b></p>
+                <p th:text="${product.description}">description</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="w3-row">
+        <div class="w3-third w3-container">
+            <div class="w3-center">
+                <div class="w3-bar">
+                    <a class="w3-bar-item w3-button w3-hover-lime w3-round">Товаров на странице: </a>
+                    <a href="?size=4" class="w3-bar-item w3-button w3-hover-lime w3-round">4</a>
+                    <a href="?size=8" class="w3-bar-item w3-button w3-hover-lime w3-round">8</a>
+                    <a href="?size=12" class="w3-bar-item w3-button w3-hover-lime w3-round">12</a>
+                </div>
+            </div>
+        </div>
+        <div class="w3-twothird w3-container">
+            <div class="w3-center">
+                <div class="w3-bar">
+                    <a th:href="${'?page='} + ${session.pageDto.page - 1}"
+                       class="w3-bar-item w3-button w3-hover-lime w3-round">«</a>
+                    <a href="?page=0" class="w3-bar-item w3-button w3-hover-lime w3-round">1</a>
+                    <a href="?page=1" class="w3-bar-item w3-button w3-hover-lime w3-round">2</a>
+                    <a href="?page=2" class="w3-bar-item w3-button w3-hover-lime w3-round">3</a>
+                    <a href="?page=3" class="w3-bar-item w3-button w3-hover-lime w3-round">4</a>
+                    <a th:href="${'?page='} + ${session.pageDto.page + 1}"
+                       class="w3-bar-item w3-button w3-hover-lime w3-round">»</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small stylish-color">
+    <div class="footer-copyright text-center py-3">© 2019 Project:
+        <a href=""> PotionStore.com</a>
+    </div>
+</footer>
+
+</body>
+</html>

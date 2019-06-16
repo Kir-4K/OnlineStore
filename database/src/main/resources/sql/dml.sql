@@ -9,6 +9,8 @@ VALUES ('Ласточка', 24.50, 4.5, 'Великолепное зелье о�
         (SELECT id FROM online_store.category WHERE name = 'Зелья')),
        ('Весельчак', 27.25, 4, 'Прекрасное зелье, которое скрасит не один осенний вечерок.', 20,
         (SELECT id FROM online_store.category WHERE name = 'Зелья')),
+       ('Гром', 12.50, 4.0, 'Зевс, Перун и Тор рекомендуют.', 10,
+        (SELECT id FROM online_store.category WHERE name = 'Зелья')),
        ('Иволга', 21.50, 3,
         'Если Вы всегда мечтали разговаривать с животными и птицами, то вы наконец-таки сможете сделать это', 20,
         (SELECT id FROM online_store.category WHERE name = 'Зелья')),
@@ -18,16 +20,26 @@ VALUES ('Ласточка', 24.50, 4.5, 'Великолепное зелье о�
        ('Святая вода', 16.50, 2.5, 'Может, убить оборотня или вампира и не сможет, но Ваш организм точно прочистит.',
         20,
         (SELECT id FROM online_store.category WHERE name = 'Зелья')),
+       ('Пурга', 17.50, 3.5, 'И каждый день Вам покажется праздником! Толко не пейте его на морозе!', 10,
+        (SELECT id FROM online_store.category WHERE name = 'Зелья')),
+       ('Дикий мустанг', 22.50, 4.0,
+        'Хотите стать сильным и необузданным, бежать навстречу ветру и диким прериям? Выпейте, и ваша жизнь не будет как прежде!',
+        10,
+        (SELECT id FROM online_store.category WHERE name = 'Зелья')),
+       ('Шок-Жокей', 24.70, 5.0, 'На вид может и не очень, но это сделает из вас настоящего Электро!..5 разряда.', 10,
+        (SELECT id FROM online_store.category WHERE name = 'Зелья')),
+       ('Поцелуй Дьявола', 17.70, 4.0, 'Просто огонь! Вы начнете дышать огнем как настоящий дракон.', 10,
+        (SELECT id FROM online_store.category WHERE name = 'Зелья')),
        ('Кровь программиста', 7.0, 1, 'Замедляет время до дедлайна. Но только для вас.', 20,
         (SELECT id FROM online_store.category WHERE name = 'Ингредиенты')),
        ('Кровь утопца', 6.25, 1.5, 'Ингредиент для многих чернокнижных зелий.', 20,
         (SELECT id FROM online_store.category WHERE name = 'Ингредиенты'));
 
 -- Блок Пользоваталей
-INSERT INTO online_store.user(login, password, role)
-VALUES ('Admin', 'admin', 'ADMIN'),
-       ('Karil', 'qwerty', 'CUSTOMER'),
-       ('Ivan', 'qwerty', 'CUSTOMER');
+INSERT INTO online_store.user(username, password, role)
+VALUES ('Admin', '$2a$04$qWzETK5RYSnq8UZOqMJz4uxjnhnJX6j2DJjwEjgEN./sKxE5I3xWy', 'ADMIN'),
+       ('Karil', '$2a$04$FMTijs2skMKKPVXMzWR.SOfv7fxHMfQUiWUBLg/lAIKni8MvusF8e', 'CUSTOMER'),
+       ('Ivan', '$2a$04$FMTijs2skMKKPVXMzWR.SOfv7fxHMfQUiWUBLg/lAIKni8MvusF8e', 'CUSTOMER');
 
 INSERT INTO online_store.address(city, street, house, apartment)
 VALUES ('Минск', 'Мира', '1', '11'),
@@ -35,10 +47,10 @@ VALUES ('Минск', 'Мира', '1', '11'),
 
 INSERT INTO online_store.customer(last_name, first_name, middle_name, mail, phone, user_id, address_id)
 VALUES ('Максимов', 'Максим', 'Максимвич', 'max@mail.ru', '80291112221',
-        (SELECT id FROM online_store.user WHERE login = 'Karil'),
+        (SELECT id FROM online_store.user WHERE username = 'Karil'),
         (SELECT id FROM online_store.address WHERE id = 1)),
        ('Иванов', 'Иван', 'Иванович', 'iavan@mail.ru', '80296122222',
-        (SELECT id FROM online_store.user WHERE login = 'Ivan'),
+        (SELECT id FROM online_store.user WHERE username = 'Ivan'),
         (SELECT id FROM online_store.address WHERE id = 2));
 
 INSERT INTO online_store.customer(first_name, phone)

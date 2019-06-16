@@ -38,7 +38,7 @@ public class UserRepositoryTest {
     @Test
     public void testFindById() {
         Optional<User> user = userRepository.findById(1L);
-        user.ifPresent(value -> assertThat(value.getLogin(), equalTo("Admin")));
+        user.ifPresent(value -> assertThat(value.getUsername(), equalTo("Admin")));
     }
 
     @Test
@@ -49,17 +49,17 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindCurrentUser() {
-        BooleanExpression expression = QUser.user.login.eq("Admin").and(QUser.user.password.eq("admin"));
+        BooleanExpression expression = QUser.user.username.eq("Admin").and(QUser.user.password.eq("admin"));
 
         Optional<User> user = userRepository.findOne(expression);
-        user.ifPresent(value -> assertThat(value.getLogin(), equalTo("Admin")));
+        user.ifPresent(value -> assertThat(value.getUsername(), equalTo("Admin")));
     }
 
     @Test
     public void testGetAllCustomer() {
         BooleanExpression expression = QUser.user.role.eq(CUSTOMER);
         List<User> allCustomer = newArrayList(userRepository.findAll(expression));
-        List<String> loginList = allCustomer.stream().map(User::getLogin).collect(toList());
+        List<String> loginList = allCustomer.stream().map(User::getUsername).collect(toList());
         assertThat(loginList, hasSize(2));
         assertThat(loginList, contains("Karil", "Ivan"));
     }
@@ -70,12 +70,12 @@ public class UserRepositoryTest {
         userRepository.save(save);
 
         Optional<User> user = userRepository.findById(save.getId());
-        user.ifPresent(value -> assertThat(value.getLogin(), equalTo("Pavel")));
+        user.ifPresent(value -> assertThat(value.getUsername(), equalTo("Pavel")));
     }
 
-    private User getUser(String login, String password, Role role) {
+    private User getUser(String username, String password, Role role) {
         return User.builder()
-                .login(login)
+                .username(username)
                 .password(password)
                 .role(role)
                 .build();
@@ -86,6 +86,6 @@ public class UserRepositoryTest {
         userRepository.update(1L, "SuperAdmin", "admin");
 
         Optional<User> user = userRepository.findById(1L);
-        user.ifPresent(value -> assertThat(value.getLogin(), equalTo("SuperAdmin")));
+        user.ifPresent(value -> assertThat(value.getUsername(), equalTo("SuperAdmin")));
     }
 }

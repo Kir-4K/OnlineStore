@@ -4,7 +4,6 @@ import by.itacademy.kostusev.dto.PageDto;
 import by.itacademy.kostusev.dto.ProductDto;
 import by.itacademy.kostusev.dto.ProductFilterDto;
 import by.itacademy.kostusev.entity.Product;
-import by.itacademy.kostusev.entity.QProduct;
 import by.itacademy.kostusev.mapper.ProductMapper;
 import by.itacademy.kostusev.repository.ProductRepository;
 import by.itacademy.kostusev.util.ExpressionBuilder;
@@ -19,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static by.itacademy.kostusev.entity.QProduct.product;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -60,10 +60,10 @@ public class ProductService {
 
     public ExpressionBuilder getProductFilter(ProductFilterDto filter) {
         ExpressionBuilder builder = new ExpressionBuilder();
-        builder.add(filter.getMinPrice(), QProduct.product.price::goe);
-        builder.add(filter.getMaxPrice(), QProduct.product.price::loe);
-        builder.add(filter.getRating(), QProduct.product.rating::goe);
-        builder.add(filter.getCategory().getName(), QProduct.product.category.name::eq);
+        builder.add(filter.getMinPrice(), product.price::goe);
+        builder.add(filter.getMaxPrice(), product.price::loe);
+        builder.add(filter.getRating(), product.rating::goe);
+        builder.add(filter.getCategory(), product.category.name::eq);
         return builder;
     }
 }

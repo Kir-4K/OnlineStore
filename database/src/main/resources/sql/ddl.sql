@@ -23,7 +23,7 @@ CREATE TABLE online_store.product
 CREATE TABLE online_store.user
 (
     id       BIGSERIAL PRIMARY KEY,
-    login    VARCHAR(64) NOT NULL UNIQUE,
+    username    VARCHAR(64) NOT NULL UNIQUE,
     password VARCHAR(64) NOT NULL,
     role     VARCHAR(16) NOT NULL
 );
@@ -74,4 +74,3 @@ CREATE TABLE online_store.news
     text    TEXT         NOT NULL,
     user_id BIGINT REFERENCES online_store.user (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-

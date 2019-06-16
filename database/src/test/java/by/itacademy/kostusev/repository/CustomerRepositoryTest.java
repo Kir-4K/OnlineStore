@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -81,7 +80,7 @@ public class CustomerRepositoryTest {
             customerRepository.save(save);
 
             Optional<Customer> customer = customerRepository.findById(save.getId());
-            customer.ifPresent(value -> assertThat(value.getUser().getLogin(), equalTo("Admin")));
+            customer.ifPresent(value -> assertThat(value.getUser().getUsername(), equalTo("Admin")));
         }
     }
 

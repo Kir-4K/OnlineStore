@@ -1,6 +1,5 @@
 package by.itacademy.kostusev.dto;
 
-import by.itacademy.kostusev.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +14,6 @@ public class ProductFilterDto {
     private Double minPrice;
     private Double maxPrice;
     private Double rating;
-    private Category category;
+    private String category;
+    private String specifier;
 }

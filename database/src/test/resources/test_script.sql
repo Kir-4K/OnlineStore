@@ -24,10 +24,10 @@ VALUES ('Ласточка', 24.50, 4.5, 'Великолепное зелье о�
         (SELECT id FROM online_store.category WHERE name = 'Ингредиенты'));
 
 -- Блок Пользоваталей
-INSERT INTO online_store.user(login, password, role)
-VALUES ('Admin', 'admin', 'ADMIN'),
-       ('Karil', 'qwerty', 'CUSTOMER'),
-       ('Ivan', 'qwerty', 'CUSTOMER');
+INSERT INTO online_store.user(username, password, role)
+VALUES ('Admin', '$2a$04$qWzETK5RYSnq8UZOqMJz4uxjnhnJX6j2DJjwEjgEN./sKxE5I3xWy', 'ADMIN'),
+       ('Karil', '$2a$04$FMTijs2skMKKPVXMzWR.SOfv7fxHMfQUiWUBLg/lAIKni8MvusF8e', 'CUSTOMER'),
+       ('Ivan', '$2a$04$FMTijs2skMKKPVXMzWR.SOfv7fxHMfQUiWUBLg/lAIKni8MvusF8e', 'CUSTOMER');
 
 INSERT INTO online_store.address(city, street, house, apartment)
 VALUES ('Минск', 'Мира', '1', '11'),
@@ -35,10 +35,10 @@ VALUES ('Минск', 'Мира', '1', '11'),
 
 INSERT INTO online_store.customer(last_name, first_name, middle_name, mail, phone, user_id, address_id)
 VALUES ('Максимов', 'Максим', 'Максимвич', 'max@mail.ru', '80291112221',
-        (SELECT id FROM online_store.user WHERE login = 'Karil'),
+        (SELECT id FROM online_store.user WHERE username = 'Karil'),
         (SELECT id FROM online_store.address WHERE id = 1)),
        ('Иванов', 'Иван', 'Иванович', 'iavan@mail.ru', '80296122222',
-        (SELECT id FROM online_store.user WHERE login = 'Ivan'),
+        (SELECT id FROM online_store.user WHERE username = 'Ivan'),
         (SELECT id FROM online_store.address WHERE id = 2));
 
 INSERT INTO online_store.customer(first_name, phone)

@@ -38,13 +38,13 @@ public class NewsRepositoryTest {
     @Test
     public void testFindById() {
         Optional<News> news = newsRepository.findById(1L);
-        news.ifPresent(value -> assertThat(value.getUser().getLogin(), equalTo("Admin")));
+        news.ifPresent(value -> assertThat(value.getUser().getUsername(), equalTo("Admin")));
     }
 
     @Test
     public void testFindAll() {
         List<News> news = Lists.newArrayList(newsRepository.findAll());
-        List<String> users = news.stream().map(News::getUser).map(User::getLogin).collect(toList());
+        List<String> users = news.stream().map(News::getUser).map(User::getUsername).collect(toList());
         assertThat(users, contains("Admin", "Admin"));
     }
 
@@ -61,7 +61,7 @@ public class NewsRepositoryTest {
             newsRepository.save(save);
 
             Optional<News> news = newsRepository.findById(save.getId());
-            news.ifPresent(value -> assertThat(value.getUser().getLogin(), equalTo("Admin")));
+            news.ifPresent(value -> assertThat(value.getUser().getUsername(), equalTo("Admin")));
         }
     }
 

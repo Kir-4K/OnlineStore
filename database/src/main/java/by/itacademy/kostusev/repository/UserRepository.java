@@ -11,12 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long>, QuerydslPredicateExecutor<User> {
 
+    User findByUsername(String username);
+
     @Modifying
     @Query("UPDATE User u " +
-            "SET u.login =:login, " +
+            "SET u.username =:username, " +
             "u.password =:password " +
             "WHERE u.id = :id")
     int update(@Param("id") Long id,
-               @Param("login") String login,
+               @Param("username") String username,
                @Param("password") String password);
 }
