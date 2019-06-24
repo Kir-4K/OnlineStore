@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Checkout</title>
+    <div th:insert="~{fragments::links-meta}"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{css/checkout.css}">
+</head>
+<body>
+
+<div class="content">
+    <div class="w3-main">
+
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <div class="void"></div>
+
+        <!-- Checkout -->
+        <div class="row">
+            <div class="col-75">
+                <div class="container">
+                    <form th:action="@{/checkout}" method="post">
+                        <div class="row">
+                            <div class="col-50">
+                                <h3>Покупатель</h3>
+
+                                <div class="row">
+                                    <div class="col-50">
+                                        <label><i class="fa fa-user"></i> Имя*
+                                            <input type="text" name="firstName" placeholder="Иван">
+                                        </label>
+                                    </div>
+                                    <div class="col-50">
+                                        <label> Фамилия
+                                            <input type="text" name="lastName" placeholder="Иванов">
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <label><i class="fa fa-phone"></i> Телефон*
+                                    <input type="text" name="phone"
+                                           pattern="(((8\s?0)|(375))(25|29|33|44)\s?([0-9]{7}))"
+                                           placeholder="80(29)123-45-67">
+                                </label>
+
+                                <label><i class="fa fa-envelope"></i> Email
+                                    <input type="text" name="mail"
+                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                           placeholder="ivan@example.com">
+                                </label>
+
+                                <div class="form-group">
+                                    <label><i class="fa fa-credit-card"></i> Способ оплаты:
+                                        <select name="payment" class="form-control input-lg" required>
+                                            <option value="CASH"> Наличными </option>
+                                            <option value="CARD"> Банковской картой </option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-50">
+                                <h3>Адрес доставки</h3>
+                                <label><i class="fa fa-institution"></i> Город
+                                    <input type="text" name="city" placeholder="Минск">
+                                </label>
+
+                                <label><i class="fa fa-address-card-o"></i> Улица
+                                    <input type="text" name="street" placeholder="пр.Победителей">
+                                </label>
+
+                                <div class="row">
+                                    <div class="col-50">
+                                        <label> Дом
+                                            <input type="text" name="house" placeholder="54а">
+                                        </label>
+                                    </div>
+                                    <div class="col-50">
+                                        <label> Квартира
+                                            <input type="text" name="apartment" placeholder="12">
+                                        </label>
+                                    </div>
+                                </div>
+                                <p>* поля обязательные для заполения</p>
+                            </div>
+
+                        </div>
+                        <input type="submit" value="Оформить" class="btn">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{fragments::footer}"></div>
+
+</body>
+</html>
