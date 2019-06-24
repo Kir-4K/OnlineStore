@@ -76,11 +76,16 @@ public class ProductOrderRepositoryTest {
         Integer quantity = 1;
 
         ProductOrderPK pk = getProductOrderPK(orderId, productId);
-        productOrderRepository.update(pk, quantity);
-
         Optional<ProductOrder> productOrder = productOrderRepository.findById(pk);
-        productOrder.ifPresent(order -> assertThat(order.getId().getProduct().getName(), equalTo("Кровь утопца")));
-        productOrder.ifPresent(order -> assertThat(order.getQuantity(), equalTo(quantity)));
+
+        if (productOrder.isPresent()) {
+            productOrder.get().setQuantity(quantity);
+            productOrderRepository.save(productOrder.get());
+        }
+
+        Optional<ProductOrder> productOrderUpdate = productOrderRepository.findById(pk);
+        productOrderUpdate.ifPresent(order -> assertThat(order.getId().getProduct().getName(), equalTo("Кровь утопца")));
+        productOrderUpdate.ifPresent(order -> assertThat(order.getQuantity(), equalTo(quantity)));
     }
 
     @Test

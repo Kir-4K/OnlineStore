@@ -1,68 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Users</title>
-    <link rel="shortcut icon" th:href="@{img/potion.png}" type="image/x-icon">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" th:href="@{css/products.css}">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css">
-
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <div th:insert="~{fragments::links-meta}"></div>
 </head>
 <body>
 
-<div class="w3-main">
+<div class="content">
+    <div class="w3-main">
 
-    <!-- Header -->
-    <div class="w3-top">
-        <div class="w3-bar">
-            <div class="header">
-                <a class="auth_item locale" href="">Home</a>
-                <a class="auth_item locale" href="">
-                    <img th:src="@{img/en.png}" width="26" height="26" alt="name"/>
-                </a>
-                <a class="auth_item locale" href="">
-                    <img th:src="@{img/ru.png}" width="26" height="26" alt="name"/>
-                </a>
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <!-- Logo -->
+        <div th:insert="~{fragments::logo}"></div>
+
+        <!-- Users -->
+        <div class="w3-row-padding w3-padding-4">
+            <div th:each="user: ${users}" class="w3-quarter w3-container w3-margin-bottom">
+                <div class="w3-container w3-white">
+                    <p th:text="${user.username}">username</p>
+                    <p th:text="${user.password}">password</p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Logo -->
-    <br><br>
-    <div class="w3-container">
-        <a href="" title="Home">
-            <p class="logo">
-                <img th:src="@{img/cauldron.png}" alt="Home">
-            </p>
-        </a>
     </div>
-
-    <!-- Users -->
-    <div class="w3-row-padding w3-padding-4">
-        <div th:each="user: ${users}" class="w3-quarter w3-container w3-margin-bottom">
-            <div class="w3-container w3-white">
-                <p th:text="${user.username}">username</p>
-                <p th:text="${user.password}">password</p>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <!-- Footer -->
-<footer class="page-footer font-small stylish-color">
-    <div class="footer-copyright text-center py-3">© 2019 Project:
-        <a href=""> PotionStore.com</a>
-    </div>
-</footer>
+<div th:insert="~{fragments::footer}"></div>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-package by.itacademy.kostusev.dto;
+package by.itacademy.kostusev.dto.utilityDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

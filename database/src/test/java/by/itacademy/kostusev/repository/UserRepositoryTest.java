@@ -83,9 +83,14 @@ public class UserRepositoryTest {
 
     @Test
     public void testUpdate() {
-        userRepository.update(1L, "SuperAdmin", "admin");
-
         Optional<User> user = userRepository.findById(1L);
-        user.ifPresent(value -> assertThat(value.getUsername(), equalTo("SuperAdmin")));
+        if (user.isPresent()) {
+            user.get().setUsername("SuperAdmin");
+            user.get().setPassword("admin");
+            userRepository.save(user.get());
+        }
+
+        Optional<User> userUpdate = userRepository.findById(1L);
+        userUpdate.ifPresent(value -> assertThat(value.getUsername(), equalTo("SuperAdmin")));
     }
 }

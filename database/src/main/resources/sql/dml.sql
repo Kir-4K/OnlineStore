@@ -45,11 +45,11 @@ INSERT INTO online_store.address(city, street, house, apartment)
 VALUES ('Минск', 'Мира', '1', '11'),
        ('Минск', 'Пушкина', '2', '10');
 
-INSERT INTO online_store.customer(last_name, first_name, middle_name, mail, phone, user_id, address_id)
-VALUES ('Максимов', 'Максим', 'Максимвич', 'max@mail.ru', '80291112221',
+INSERT INTO online_store.customer(last_name, first_name, mail, phone, user_id, address_id)
+VALUES ('Максимов', 'Максим', 'max@mail.ru', '80291112221',
         (SELECT id FROM online_store.user WHERE username = 'Karil'),
         (SELECT id FROM online_store.address WHERE id = 1)),
-       ('Иванов', 'Иван', 'Иванович', 'iavan@mail.ru', '80296122222',
+       ('Иванов', 'Иван', 'iavan@mail.ru', '80296122222',
         (SELECT id FROM online_store.user WHERE username = 'Ivan'),
         (SELECT id FROM online_store.address WHERE id = 2));
 

@@ -67,9 +67,14 @@ public class NewsRepositoryTest {
 
     @Test
     public void testUpdate() {
-        newsRepository.update(1L, "Новые новости (Обновлено)", "Отличные новсти, народ!", LocalDateTime.now());
-
         Optional<News> news = newsRepository.findById(1L);
-        news.ifPresent(value -> assertThat(value.getTitle(), equalTo("Новые новости (Обновлено)")));
+        if (news.isPresent()) {
+            news.get().setTitle("Новые новости (Обновлено)");
+            news.get().setText("Отличные новсти, народ!");
+            newsRepository.save(news.get());
+        }
+
+        Optional<News> newsUpdate = newsRepository.findById(1L);
+        newsUpdate.ifPresent(value -> assertThat(value.getTitle(), equalTo("Новые новости (Обновлено)")));
     }
 }

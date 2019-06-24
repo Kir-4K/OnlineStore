@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragments</title>
+</head>
+<body>
+<div th:fragment="links-meta">
+    <meta http-equiv="Content-Type" charset="UTF-8" th:charset="UTF-8" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" th:href="@{img/potion.png}" type="image/x-icon">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</div>
+
+<div th:fragment="header">
+    <div class="w3-top headerMenu">
+        <div class="w3-third w3-container">
+            <div class="w3-left">
+                <div class="w3-bar">
+                    <a class="auth_item locale" href="">
+                        <img th:src="@{img/en.png}" width="26" height="26" alt="name"/>
+                    </a>
+                    <a class="auth_item locale" href="">
+                        <img th:src="@{img/ru.png}" width="26" height="26" alt="name"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="w3-twothird w3-container">
+            <div class="w3-right">
+                <div class="w3-bar">
+                    <a class="auth_item" href="/cart" th:text="#{header.cart}">Cart</a>
+                    <a class="auth_item" href="" th:text="#{header.toHome}">Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="logo">
+    <br><br>
+    <div class="w3-container">
+        <a th:href="@{/products}" title="Home">
+            <p class="logo">
+                <img th:src="@{img/cauldron.png}" alt="Home">
+            </p>
+        </a>
+    </div>
+</div>
+
+<div th:fragment="menu">
+    <div>
+        <ul class="menu">
+            <li class="dropdown"><a href="#" th:href="@{/products}" th:text="#{menu.home}">HOME</a></li>
+            <li class="dropdown"><a href="#" th:href="@{/products}" th:text="#{menu.products}">PRODUCTS</a>
+                <ul class="submenu">
+                    <li class="dropdown"><a href="" th:text="#{menu.potion}">POTIONS</a></li>
+                    <li class="dropdown"><a href="" th:text="#{menu.ingredients}">INGREDIENTS</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a href="" th:text="#{menu.news}">NEWS</a></li>
+            <li class="dropdown"><a href="" th:text="#{menu.contacts}">CONTACTS</a></li>
+        </ul>
+    </div>
+</div>
+
+<div th:fragment="footer">
+    <div class="footer">
+        <div class="page-footer font-small stylish-color">
+            <div class="footer-copyright text-center py-3">© 2019 Project:
+                <a href=""> PotionStore.com</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

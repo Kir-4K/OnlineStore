@@ -1,7 +1,7 @@
 package by.itacademy.kostusev.controller;
 
 import by.itacademy.kostusev.dto.UserDto;
-import by.itacademy.kostusev.service.UserServiceImpl;
+import by.itacademy.kostusev.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import static by.itacademy.kostusev.path.ViewPath.SIGNUP_VIEW;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SignUpController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @GetMapping
     public String signUp() {
@@ -27,8 +27,8 @@ public class SignUpController {
     }
 
     @PostMapping
-    public String registerNewUserAccount(UserDto user) {
-        userService.registerNewUserAccount(user);
+    public String registerNewAccount(UserDto user) {
+        userService.registerNewAccount(user);
         return REDIRECT + PRODUCTS_VIEW;
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static by.itacademy.kostusev.entity.Role.ADMIN;
 import static by.itacademy.kostusev.path.UrlPath.FORBIDDEN;
@@ -29,9 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
-    // @formatter:off
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        http.addFilterBefore(filter, CsrfFilter.class);
+        // @formatter:off
         http
                 .authorizeRequests()
                     .antMatchers(ADMIN_PAGES)
@@ -51,8 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .exceptionHandling().accessDeniedPage(FORBIDDEN)
                 .and()
                     .userDetailsService(userDetailsService);
+          // @formatter:on
     }
-    // @formatter:on
 
     @Bean
     public PasswordEncoder passwordEncoder() {

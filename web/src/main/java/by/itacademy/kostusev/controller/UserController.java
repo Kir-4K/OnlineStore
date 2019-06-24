@@ -1,7 +1,7 @@
 package by.itacademy.kostusev.controller;
 
 import by.itacademy.kostusev.dto.UserDto;
-import by.itacademy.kostusev.service.UserServiceImpl;
+import by.itacademy.kostusev.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,16 +14,15 @@ import java.util.List;
 
 import static by.itacademy.kostusev.path.UrlPath.USER_URL;
 import static by.itacademy.kostusev.path.ViewPath.USER_VIEW;
+import static by.itacademy.kostusev.util.AttributeName.USER;
+import static by.itacademy.kostusev.util.AttributeName.USERS;
 
 @Controller
 @RequestMapping(USER_URL)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    private static final String USERS = "users";
-    private static final String USER = "user";
-
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @GetMapping
     public String getUsers(Model model) {

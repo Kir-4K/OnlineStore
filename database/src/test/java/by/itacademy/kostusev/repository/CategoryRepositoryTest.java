@@ -58,9 +58,13 @@ public class CategoryRepositoryTest {
 
     @Test
     public void testUpdate() {
-        categoryRepository.update(1L, "Зелье");
-
         Optional<Category> category = categoryRepository.findById(1L);
-        category.ifPresent(value -> assertThat(value.getName(), equalTo("Зелье")));
+        if (category.isPresent()) {
+            category.get().setName("Зелье");
+            categoryRepository.save(category.get());
+        }
+
+        Optional<Category> categoryUpdate = categoryRepository.findById(1L);
+        categoryUpdate.ifPresent(value -> assertThat(value.getName(), equalTo("Зелье")));
     }
 }

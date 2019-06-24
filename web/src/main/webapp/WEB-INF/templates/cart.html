@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your cart</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <div th:insert="~{fragments::links-meta}"></div>
+</head>
+<body>
+
+<div class="content">
+    <div class="w3-main">
+
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <!-- Logo -->
+        <div th:insert="~{fragments::logo}"></div>
+
+        <!-- Menu -->
+        <div th:insert="~{fragments::menu}"></div>
+
+        <!-- Products in Cart -->
+        <div th:if="${not #maps.isEmpty(cart)}">
+            <div class="margin cart1">
+
+                <div class="d-flex flex-row bd-highlight mb-3">
+                    <table class="table table-hover">
+                        <tr class="bg-warning">
+                            <th>Товары в Заказе</th>
+                            <th>Цена товара</th>
+                            <th>Количество</th>
+                            <th>Удалить</th>
+                        </tr>
+                        <tr th:each="cartItem: ${cart}">
+                            <td th:text="${cartItem.key.name}">CartItem</td>
+                            <td th:text="${cartItem.key.price} + ' ' + #{product.rub} + '.'">CartItem
+                            </td>
+                            <td th:text="${cartItem.value}">CartItem</td>
+                            <td>
+                                <a th:href="@{/cart/delete(id=${cartItem.key.id})}">
+                                    <img th:src="@{img/delete.png}" width="24" height="24" alt="delete"/>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6 col-md-10">
+                        <div class="container">
+                            <span>Общая цена: </span>
+                            <span th:text="${sum} + ' ' + #{product.rub} + '.'">sum </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 .col-md-2">
+                        <div class="container">
+                            <a class="btn btn-warning btn-sm" href="/cart/clear" role="button">
+                                Очистить корзину
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                <a class="btn btn-success btn-ьв" href="/checkout"> Оформить заказ</a>
+            </div>
+
+        </div>
+
+        <!-- Void Cart -->
+        <div th:if="${#maps.isEmpty(cart)}">
+            <br><br>
+            <div class="w3-container">
+                <a th:href="@{/products}" title="Go to Products">
+                    <p class="logo">
+                        <img th:src="@{img/cart_empty.png}" alt="Home">
+                    </p>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{fragments::footer}"></div>
+
+</body>
+</html>

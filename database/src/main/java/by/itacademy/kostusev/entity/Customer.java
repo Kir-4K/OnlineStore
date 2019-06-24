@@ -38,9 +38,6 @@ public class Customer implements BaseEntity<Long> {
     @Column(name = "last_name", nullable = true, length = 32)
     private String lastName;
 
-    @Column(name = "middle_name", nullable = true, length = 32)
-    private String middleName;
-
     @Column(name = "first_name", nullable = false, length = 32)
     private String firstName;
 
@@ -54,7 +51,7 @@ public class Customer implements BaseEntity<Long> {
     @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 

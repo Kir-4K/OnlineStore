@@ -1,9 +1,8 @@
 package by.itacademy.kostusev.service;
 
-import by.itacademy.kostusev.dto.PageDto;
 import by.itacademy.kostusev.dto.ProductDto;
-import by.itacademy.kostusev.dto.ProductFilterDto;
-import by.itacademy.kostusev.entity.Product;
+import by.itacademy.kostusev.dto.utilityDto.PageDto;
+import by.itacademy.kostusev.dto.utilityDto.ProductFilterDto;
 import by.itacademy.kostusev.mapper.ProductMapper;
 import by.itacademy.kostusev.repository.ProductRepository;
 import by.itacademy.kostusev.util.ExpressionBuilder;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static by.itacademy.kostusev.entity.QProduct.product;
 import static java.util.stream.Collectors.toList;
@@ -30,35 +27,44 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     public ProductDto findById(Long id) {
-        Optional<Product> user = productRepository.findById(id);
-        return user.isPresent() ? productMapper.toDto(user.get()) : ProductDto.builder().build();
+        return productRepository.findById(id)
+                .map(productMapper::toDto)
+                .orElse(null);
     }
 
     public List<ProductDto> findAll() {
-        List<Product> products = Lists.newArrayList(productRepository.findAll());
-        return products.stream().map(productMapper::toDto).collect(toList());
+        return Lists.newArrayList(productRepository.findAll())
+                .stream()
+                .map(productMapper::toDto)
+                .collect(toList());
     }
 
     public List<ProductDto> findAll(ProductFilterDto filter) {
         ExpressionBuilder builder = getProductFilter(filter);
-        List<Product> products = Lists.newArrayList(productRepository.findAll(builder.getExpression()));
-        return products.stream().map(productMapper::toDto).collect(Collectors.toList());
+        return Lists.newArrayList(productRepository.findAll(builder.getExpression()))
+                .stream()
+                .map(productMapper::toDto)
+                .collect(toList());
     }
 
     public List<ProductDto> findAll(PageDto page) {
         PageRequest pageable = PageRequest.of(page.getPage(), page.getSize());
-        List<Product> products = Lists.newArrayList(productRepository.findAll(pageable));
-        return products.stream().map(productMapper::toDto).collect(Collectors.toList());
+        return Lists.newArrayList(productRepository.findAll(pageable))
+                .stream()
+                .map(productMapper::toDto)
+                .collect(toList());
     }
 
     public List<ProductDto> findAll(ProductFilterDto filter, PageDto page) {
         ExpressionBuilder builder = getProductFilter(filter);
         PageRequest pageable = PageRequest.of(page.getPage(), page.getSize());
-        List<Product> products = Lists.newArrayList(productRepository.findAll(builder.getExpression(), pageable));
-        return products.stream().map(productMapper::toDto).collect(Collectors.toList());
+        return Lists.newArrayList(productRepository.findAll(builder.getExpression(), pageable))
+                .stream()
+                .map(productMapper::toDto)
+                .collect(toList());
     }
 
-    public ExpressionBuilder getProductFilter(ProductFilterDto filter) {
+    private ExpressionBuilder getProductFilter(ProductFilterDto filter) {
         ExpressionBuilder builder = new ExpressionBuilder();
         builder.add(filter.getMinPrice(), product.price::goe);
         builder.add(filter.getMaxPrice(), product.price::loe);

@@ -8,20 +8,20 @@ a {
     text-decoration: none;
 }
 
-.header {
-    padding: 10px;
+.headerMenu {
+    padding: 14px;
     text-align: right;
     border-radius: 3px;
     background-color: #ACE531;
 }
 
-.header a {
-    padding: 10px;
+.headerMenu a {
+    padding: 16px;
     color: #fff;
-    border-radius: 3px;
+    border-radius: 100%;
 }
 
-.header a:hover {
+.headerMenu a:hover {
     color: #ACE531;
     background: #fff;
 }
@@ -122,4 +122,21 @@ ul ul ul {
 
 .product-name a:hover {
     color: #FF0000
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex-shrink: 0;
 }

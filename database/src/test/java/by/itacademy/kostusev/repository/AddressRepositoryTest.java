@@ -33,6 +33,12 @@ public class AddressRepositoryTest {
     }
 
     @Test
+    public void testFindByCustomerPhone() {
+        Optional<Address> address = addressRepository.findByCustomersPhone("80291112221");
+        address.ifPresent(value -> assertThat(value.getCity(), equalTo("Минск")));
+    }
+
+    @Test
     public void testSave() {
         Address save = Address.builder()
                 .city("Могилев")
@@ -48,9 +54,16 @@ public class AddressRepositoryTest {
 
     @Test
     public void testUpdate() {
-        addressRepository.update(1L, "Минск", "Заводская", "12", "35");
-
         Optional<Address> address = addressRepository.findById(1L);
-        address.ifPresent(value -> assertThat(value.getApartment(), equalTo("35")));
+        if (address.isPresent()) {
+            address.get().setCity("Минск");
+            address.get().setStreet("Заводская");
+            address.get().setHouse("12");
+            address.get().setApartment("35");
+            addressRepository.save(address.get());
+        }
+
+        Optional<Address> addressUpdate = addressRepository.findById(1L);
+        addressUpdate.ifPresent(value -> assertThat(value.getApartment(), equalTo("35")));
     }
 }

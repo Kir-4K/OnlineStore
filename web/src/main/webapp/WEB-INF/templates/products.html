@@ -1,63 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Products</title>
-    <link rel="shortcut icon" th:href="@{img/potion.png}" type="image/x-icon">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" th:href="@{css/products.css}">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <div th:insert="~{fragments::links-meta}"></div>
 </head>
 <body>
 
 <div class="w3-main">
 
     <!-- Header -->
-    <div class="w3-top">
-        <div class="w3-bar">
-            <div class="header">
-                <a class="auth_item locale" href="" th:text="#{login.toHome}">Home</a>
-                <a class="auth_item locale" href="">
-                    <img th:src="@{img/en.png}" width="26" height="26" alt="name"/>
-                </a>
-                <a class="auth_item locale" href="">
-                    <img th:src="@{img/ru.png}" width="26" height="26" alt="name"/>
-                </a>
-            </div>
-        </div>
-    </div>
+    <div th:insert="~{fragments::header}"></div>
 
     <!-- Logo -->
-    <br><br>
-    <div class="w3-container">
-        <a href="" title="Home">
-            <p class="logo">
-                <img th:src="@{img/cauldron.png}" alt="Home">
-            </p>
-        </a>
-    </div>
+    <div th:insert="~{fragments::logo}"></div>
 
     <!-- Menu -->
-    <div>
-        <ul class="menu">
-            <li class="dropdown"><a href="" th:text="#{login.toHome}">HOME</a></li>
-            <li class="dropdown"><a href="" th:text="#{menu.products}">PRODUCTS</a>
-                <ul class="submenu">
-                    <li class="dropdown"><a href="" th:text="#{menu.potion}">POTIONS</a></li>
-                    <li class="dropdown"><a href="" th:text="#{menu.ingredients}">INGREDIENTS</a></li>
-                </ul>
-            </li>
-            <li class="dropdown"><a href="">NEWS</a></li>
-            <li class="dropdown"><a href="">CONTACTS</a></li>
-        </ul>
-    </div>
+    <div th:insert="~{fragments::menu}"></div>
 
     <!-- Filter -->
     <div class="w3-bottombar w3-padding-16">
@@ -93,13 +52,43 @@
     <!-- Products -->
     <div class="w3-row-padding w3-padding-16">
         <div th:each="product: ${products}" class="w3-quarter w3-container w3-margin-bottom">
+
             <div class="img-container">
                 <img th:src="@{${'/img/products/' + product.name + '.png'}}" class="w3-hover-opacity"/>
             </div>
+
             <div class="w3-container w3-white">
                 <p><b th:text="${product.name}">name</b></p>
+
+                <div class="w3-row">
+                    <div class="w3-container w3-half">
+                        <div class="w3-left">
+                            <p><b th:text="${product.price} + ' ' + #{product.rub} + '.'"></b></p>
+                        </div>
+                    </div>
+                    <div class="w3-container w3-half">
+                        <div class="w3-right">
+                            <form th:action="@{/products}" method="post">
+                                <label>
+                                    <input type="hidden" name="id" th:value="${product.id}">
+                                </label>
+                                <label>
+                                    <input type="hidden" name="name" th:value="${product.name}">
+                                </label>
+                                <label>
+                                    <input type="hidden" name="price" th:value="${product.price}">
+                                </label>
+                                <button type="submit">
+                                    <img th:src="@{img/basket-cart.png}" width="18" height="18" alt="name"/>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <p th:text="${product.description}">description</p>
             </div>
+
         </div>
     </div>
 
@@ -134,11 +123,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="page-footer font-small stylish-color">
-    <div class="footer-copyright text-center py-3">© 2019 Project:
-        <a href=""> PotionStore.com</a>
-    </div>
-</footer>
+<div th:insert="~{fragments::footer}"></div>
 
 </body>
 </html>
