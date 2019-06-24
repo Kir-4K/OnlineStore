@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <div th:insert="~{fragments::links-meta}"></div>
+</head>
+<body>
+
+<div class="content">
+    <div class="w3-main">
+
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <!-- Logo -->
+        <div th:insert="~{fragments::logo}"></div>
+
+        <!-- Users -->
+        <div class="w3-row-padding w3-padding-4">
+            <div th:each="user: ${users}" class="w3-quarter w3-container w3-margin-bottom">
+                <div class="w3-container w3-white">
+                    <p th:text="${user.username}">username</p>
+                    <p th:text="${user.password}">password</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{fragments::footer}"></div>
+
+</body>
+</html>
