@@ -51,9 +51,9 @@ public class ProductRepositoryTest {
     public void testFindAll() {
         List<Product> products = newArrayList(productRepository.findAll());
         List<String> list = products.stream().map(Product::getName).collect(toList());
-        assertThat(products, hasSize(7));
-        assertThat(list, containsInAnyOrder("Ласточка", "Весельчак", "Иволга", "Зелье безумия", "Святая вода"
-                , "Кровь программиста", "Кровь утопца"));
+        assertThat(products, hasSize(12));
+        assertThat(list, containsInAnyOrder("Ласточка", "Весельчак", "Гром", "Иволга", "Зелье безумия",
+                "Святая вода", "Кровь программиста", "Кровь утопца", "Пурга", "Шок-Жокей", "Поцелуй Дьявола", "Дикий мустанг"));
     }
 
     @Test
@@ -84,7 +84,8 @@ public class ProductRepositoryTest {
 
         List<Product> products = newArrayList(productRepository.findAll(orderByPrice, orderByName));
         List<String> list = products.stream().map(Product::getName).collect(toList());
-        assertThat(list, contains("Зелье безумия", "Весельчак", "Ласточка", "Иволга", "Святая вода", "Кровь программиста", "Кровь утопца"));
+        assertThat(list, contains("Зелье безумия", "Весельчак", "Шок-Жокей", "Ласточка", "Дикий мустанг", "Иволга",
+                "Поцелуй Дьявола", "Пурга", "Святая вода", "Гром", "Кровь программиста", "Кровь утопца"));
     }
 
     @Test
@@ -96,8 +97,8 @@ public class ProductRepositoryTest {
         List<Product> products = newArrayList(productRepository.findAll(pageRequest));
         System.out.println(products);
         List<String> list = products.stream().map(Product::getName).collect(toList());
-        assertThat(products, hasSize(1));
-        assertThat(list, contains("Кровь утопца"));
+        assertThat(products, hasSize(2));
+        assertThat(list, contains("Пурга", "Дикий мустанг"));
     }
 
     @Test
@@ -123,7 +124,7 @@ public class ProductRepositoryTest {
     public void testUpdate() {
         Optional<Category> category = categoryRepository.findById(1L);
         if (category.isPresent()) {
-            Product prod = Product.builder()
+            Product product = Product.builder()
                     .id(1L)
                     .name("Святая вода (Новинка!)")
                     .price(29.25)
@@ -132,11 +133,10 @@ public class ProductRepositoryTest {
                     .description("Может, убить оборотня или вампира и не сможет, но Ваш организм точно прочистит.")
                     .category(category.get())
                     .build();
-            productRepository.update(1L, prod.getName(), prod.getPrice(), prod.getNumber(),
-                    prod.getRating(), prod.getDescription());
+            productRepository.save(product);
 
-            Optional<Product> product = productRepository.findById(prod.getId());
-            product.ifPresent(value -> assertThat(value.getName(), equalTo("Святая вода (Новинка!)")));
+            Optional<Product> productUpdate = productRepository.findById(1L);
+            productUpdate.ifPresent(value -> assertThat(value.getName(), equalTo("Святая вода (Новинка!)")));
         }
     }
 }

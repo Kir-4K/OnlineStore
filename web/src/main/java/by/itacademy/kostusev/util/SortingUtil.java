@@ -12,7 +12,7 @@ public class SortingUtil {
 
     public static OrderSpecifier<?> orderBy(String orderBy) {
         Map<String, OrderSpecifier<?>> map = Map.of(
-                "Сортировать по...", product.id.asc(),
+                "default", product.id.asc(),
                 "rating_desc", product.rating.desc(),
                 "price_desc", product.price.desc(),
                 "price_asc", product.price.asc(),

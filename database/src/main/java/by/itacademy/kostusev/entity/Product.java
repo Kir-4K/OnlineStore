@@ -23,7 +23,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = {"id"})
 @ToString(exclude = "productOrders")
 @Entity
 @Table(name = "product", schema = "online_store", catalog = "online_store_repository")

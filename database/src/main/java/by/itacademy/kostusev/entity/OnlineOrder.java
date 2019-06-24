@@ -48,7 +48,7 @@ public class OnlineOrder implements BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 

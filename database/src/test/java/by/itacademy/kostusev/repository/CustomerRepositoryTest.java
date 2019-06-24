@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -72,7 +71,6 @@ public class CustomerRepositoryTest {
             Customer save = Customer.builder()
                     .firstName("Павел")
                     .lastName("Павлович")
-                    .middleName("Александрович")
                     .phone("80(29)221-35-28")
                     .mail("pavel@mail.com")
                     .user(user.get())
@@ -81,16 +79,23 @@ public class CustomerRepositoryTest {
             customerRepository.save(save);
 
             Optional<Customer> customer = customerRepository.findById(save.getId());
-            customer.ifPresent(value -> assertThat(value.getUser().getLogin(), equalTo("Admin")));
+            customer.ifPresent(value -> assertThat(value.getUser().getUsername(), equalTo("Admin")));
         }
     }
 
     @Test
     public void testUpdate() {
-        customerRepository.update(1L, "Взяткер", "Позолот", "Богатович", "gold@mail.com", "80(29)221-35-35");
-
         Optional<Customer> customer = customerRepository.findById(1L);
-        customer.ifPresent(value -> assertThat(value.getMail(), equalTo("gold@mail.com")));
-        customer.ifPresent(value -> assertThat(value.getFirstName(), equalTo("Взяткер")));
+        if (customer.isPresent()) {
+            customer.get().setFirstName("Взяткер");
+            customer.get().setLastName("Позолот");
+            customer.get().setMail("gold@mail.com");
+            customer.get().setPhone("80(29)221-35-35");
+            customerRepository.save(customer.get());
+        }
+
+        Optional<Customer> customerUpdate = customerRepository.findById(1L);
+        customerUpdate.ifPresent(value -> assertThat(value.getMail(), equalTo("gold@mail.com")));
+        customerUpdate.ifPresent(value -> assertThat(value.getFirstName(), equalTo("Взяткер")));
     }
 }

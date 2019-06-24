@@ -1,4 +1,4 @@
-package by.itacademy.kostusev.dto;
+package by.itacademy.kostusev.dto.utilityDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class PageDto {
 
-    private Integer size;
     private Integer page;
+    private Integer size;
 }

@@ -80,9 +80,14 @@ public class OnlineOrderRepositoryTest {
 
     @Test
     public void testUpdate() {
-        orderRepository.update(1L, Payment.CASH, Status.PROCESSED, LocalDateTime.now());
-
         Optional<OnlineOrder> order = orderRepository.findById(1L);
-        order.ifPresent(value -> assertThat(value.getStatus(), equalTo(Status.PROCESSED)));
+        if (order.isPresent()) {
+            order.get().setPayment(Payment.CASH);
+            order.get().setStatus(Status.PROCESSED);
+            orderRepository.save(order.get());
+        }
+
+        Optional<OnlineOrder> orderUpdate = orderRepository.findById(1L);
+        orderUpdate.ifPresent(value -> assertThat(value.getStatus(), equalTo(Status.PROCESSED)));
     }
 }

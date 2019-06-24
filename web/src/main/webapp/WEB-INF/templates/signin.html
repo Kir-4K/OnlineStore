@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign In</title>
+    <div th:insert="~{fragments::links-meta}"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/sign.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="content">
+    <div class="w3-main">
+
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <!-- Logo -->
+        <div th:insert="~{fragments::logo}"></div>
+
+        <!-- Sign in -->
+        <div>
+            <form action="/" method="post">
+                <div class="container">
+
+                    <label for="username"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" id="username" name="username" required>
+
+                    <label for="password"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" id="password" name="password" required>
+
+                    <span th:if="${param.error}"> Вы ввели неверные данные! Повторите попытку. </span>
+
+                    <div class="sign">
+                        <button type="submit">Sign In</button>
+                    </div>
+                </div>
+
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{fragments::footer}"></div>
+
+</body>
+</html>

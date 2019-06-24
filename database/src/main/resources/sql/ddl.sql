@@ -23,7 +23,7 @@ CREATE TABLE online_store.product
 CREATE TABLE online_store.user
 (
     id       BIGSERIAL PRIMARY KEY,
-    login    VARCHAR(64) NOT NULL UNIQUE,
+    username VARCHAR(64) NOT NULL UNIQUE,
     password VARCHAR(64) NOT NULL,
     role     VARCHAR(16) NOT NULL
 );
@@ -39,22 +39,21 @@ CREATE TABLE online_store.address
 
 CREATE TABLE online_store.customer
 (
-    id          BIGSERIAL PRIMARY KEY,
-    last_name   VARCHAR(32),
-    first_name  VARCHAR(32)        NOT NULL,
-    middle_name VARCHAR(32),
-    mail        VARCHAR(64) UNIQUE,
-    phone       VARCHAR(16) UNIQUE NOT NULL,
-    user_id     BIGINT UNIQUE REFERENCES online_store.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    address_id  BIGINT UNIQUE REFERENCES online_store.address (id) ON DELETE CASCADE ON UPDATE CASCADE
+    id         BIGSERIAL PRIMARY KEY,
+    last_name  VARCHAR(32),
+    first_name VARCHAR(32)        NOT NULL,
+    mail       VARCHAR(64) UNIQUE,
+    phone      VARCHAR(16) UNIQUE NOT NULL,
+    user_id    BIGINT UNIQUE REFERENCES online_store.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    address_id BIGINT UNIQUE REFERENCES online_store.address (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE online_store.online_order
 (
     id          BIGSERIAL PRIMARY KEY,
-    customer_id BIGINT       NOT NULL REFERENCES online_store.customer (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    customer_id BIGINT REFERENCES online_store.customer (id) ON DELETE CASCADE ON UPDATE CASCADE,
     payment     VARCHAR(16),
-    date        TIMESTAMP(0) NOT NULL,
+    date        TIMESTAMP NOT NULL,
     status      VARCHAR(16)
 );
 
@@ -74,4 +73,3 @@ CREATE TABLE online_store.news
     text    TEXT         NOT NULL,
     user_id BIGINT REFERENCES online_store.user (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
