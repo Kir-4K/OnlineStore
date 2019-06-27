@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import static by.itacademy.kostusev.path.UrlPath.REDIRECT;
+import static by.itacademy.kostusev.path.UrlPath.SIGNIN_URL;
 import static by.itacademy.kostusev.path.UrlPath.SIGNUP_URL;
-import static by.itacademy.kostusev.path.ViewPath.PRODUCTS_VIEW;
 import static by.itacademy.kostusev.path.ViewPath.SIGNUP_VIEW;
 
 @Controller
@@ -29,6 +29,6 @@ public class SignUpController {
     @PostMapping
     public String registerNewAccount(UserDto user) {
         userService.registerNewAccount(user);
-        return REDIRECT + PRODUCTS_VIEW;
+        return REDIRECT + SIGNIN_URL;
     }
 }

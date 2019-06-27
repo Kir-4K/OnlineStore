@@ -46,7 +46,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public void saveNewCustomer(CustomerDto dto) {
-        customerRepository.save(customerMapper.toEntity(dto));
+    public Customer saveNewCustomer(CustomerDto dto) {
+        return customerRepository.save(customerMapper.toEntity(dto));
     }
 }

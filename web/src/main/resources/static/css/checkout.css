@@ -52,7 +52,7 @@ label {
 }
 
 .btn {
-    background-color: #4CAF50;
+    background-color: #64dd17;
     color: white;
     padding: 12px;
     margin: 10px 0;
@@ -73,11 +73,6 @@ a {
 
 hr {
     border: 1px solid lightgrey;
-}
-
-span {
-    float: right;
-    color: grey;
 }
 
 @media (max-width: 800px) {
@@ -103,26 +98,8 @@ body {
     flex-shrink: 0;
 }
 
-.headerMenu {
-    padding: 14px;
-    text-align: right;
-    border-radius: 3px;
-    background-color: #ACE531;
-}
-
-.headerMenu a {
-    padding: 16px;
-    color: #fff;
-    border-radius: 100%;
-}
-
-.headerMenu a:hover {
-    color: #ACE531;
-    background: #fff;
-}
-
 .void {
-    height: 70px;
+    height: 40px;
 }
 
 html, body {

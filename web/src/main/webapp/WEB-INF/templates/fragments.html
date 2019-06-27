@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Fragments</title>
@@ -10,39 +12,85 @@
     <link rel="shortcut icon" th:href="@{img/potion.png}" type="image/x-icon">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.3/css/mdb.min.css" rel="stylesheet">
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.3/js/mdb.min.js"></script>
 </div>
 
 <div th:fragment="header">
-    <div class="w3-top headerMenu">
-        <div class="w3-third w3-container">
-            <div class="w3-left">
-                <div class="w3-bar">
-                    <a class="auth_item locale" href="">
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark  light-green accent-4">
+        <a class="navbar-brand" href="#" th:href="@{/products}" th:text="#{header.toHome}">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+                aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="?language=en_US">
                         <img th:src="@{img/en.png}" width="26" height="26" alt="name"/>
                     </a>
-                    <a class="auth_item locale" href="">
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="?language=ru_RU">
                         <img th:src="@{img/ru.png}" width="26" height="26" alt="name"/>
                     </a>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
-        <div class="w3-twothird w3-container">
-            <div class="w3-right">
-                <div class="w3-bar">
-                    <a class="auth_item" href="/cart" th:text="#{header.cart}">Cart</a>
-                    <a class="auth_item" href="" th:text="#{header.toHome}">Home</a>
-                </div>
-            </div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup" th:text="#{header.signup}" sec:authorize="isAnonymous()">
+                        <span th:text="#{header.signup}">Sign Up</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/signin" sec:authorize="isAnonymous()">
+                        <span th:text="#{header.signin}">Sign In</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span th:text="#{header.cart}">Cart</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()">
+                        <i class="fas fa-user"></i>
+                        <span th:text="#{header.profile}">Profile</span>
+                    </a>
+                </li>
+            </ul>
         </div>
-    </div>
+
+    </nav>
 </div>
 
 <div th:fragment="logo">
-    <br><br>
+    <br><br><br>
     <div class="w3-container">
         <a th:href="@{/products}" title="Home">
             <p class="logo">

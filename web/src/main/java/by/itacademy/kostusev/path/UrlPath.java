@@ -7,7 +7,7 @@ public class UrlPath {
 
     public static final String REDIRECT = "redirect:";
     public static final String FORBIDDEN = "/forbidden";
-    public static final String SUCCESS_PAGE = "/success";
+    public static final String SUCCESSFUL_ORDER_PAGE = "/success";
     public static final String NOT_FOUND = "/notfound";
     public static final String USER_URL = "/user";
     public static final String PRODUCT_URL = "/products";

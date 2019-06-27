@@ -11,7 +11,6 @@ import static java.lang.Double.parseDouble;
 
 @Service
 @SessionScope
-//@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CartService {
 
     private static final Integer DEFAULT_VALUE = 1;

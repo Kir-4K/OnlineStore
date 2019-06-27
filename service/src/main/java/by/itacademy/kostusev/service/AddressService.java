@@ -1,6 +1,7 @@
 package by.itacademy.kostusev.service;
 
 import by.itacademy.kostusev.dto.AddressDto;
+import by.itacademy.kostusev.entity.Address;
 import by.itacademy.kostusev.mapper.AddressMapper;
 import by.itacademy.kostusev.repository.AddressRepository;
 import com.google.common.collect.Lists;
@@ -41,7 +42,7 @@ public class AddressService {
     }
 
     @Transactional
-    public void saveNewAddress(AddressDto dto) {
-        addressRepository.save(addressMapper.toEntity(dto));
+    public Address saveNewAddress(AddressDto dto) {
+        return addressRepository.save(addressMapper.toEntity(dto));
     }
 }

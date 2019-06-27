@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Products</title>
     <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
@@ -11,12 +13,6 @@
 
     <!-- Header -->
     <div th:insert="~{fragments::header}"></div>
-
-    <!-- Logo -->
-    <div th:insert="~{fragments::logo}"></div>
-
-    <!-- Menu -->
-    <div th:insert="~{fragments::menu}"></div>
 
     <!-- Filter -->
     <div class="w3-bottombar w3-padding-16">
@@ -45,13 +41,13 @@
                     <option value="5">5 звезд</option>
                 </select>
             </label>
-            <button class="w3-button w3-border w3-hover-lime w3-round"> Done</button>
+            <button class="w3-button w3-border light-green accent-4 w3-round"> Done</button>
         </form>
     </div>
 
     <!-- Products -->
     <div class="w3-row-padding w3-padding-16">
-        <div th:each="product: ${products}" class="w3-quarter w3-container w3-margin-bottom">
+        <div th:each="product: ${filter_products}" class="w3-quarter w3-container w3-margin-bottom">
 
             <div class="img-container">
                 <img th:src="@{${'/img/products/' + product.name + '.png'}}" class="w3-hover-opacity"/>

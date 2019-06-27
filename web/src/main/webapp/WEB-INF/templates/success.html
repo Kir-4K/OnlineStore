@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Your cart</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <div th:insert="~{fragments::links-meta}"></div>
+</head>
+<body>
+
+<div class="content">
+    <div class="w3-main">
+
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <div class="void"></div>
+        <div>
+            <p> Спасибо за заказ в нашем магазине! </p>
+            <p> Номер вашего заказа: №<span th:text="${session.order.id.order.id}">Order Id</span></p>
+            <p> Дата заказа: <span th:text="${order_time}">Order Date</span></p>
+            <p> Общая стоимость: <span th:text="${session.sum} + ' ' + #{product.rub} + '.'">Total sum</span></p>
+        </div>
+
+        <!-- Products in Order -->
+        <div>
+
+            <div class="margin cart1">
+                <div class="d-flex flex-row bd-highlight mb-3">
+                    <table class="table table-hover">
+                        <tr class="bg-warning">
+                            <th>Товары в Заказе</th>
+                            <th>Цена товара</th>
+                            <th>Количество</th>
+                        </tr>
+                        <tr th:each="product: ${session.products_in_order}">
+                            <td th:text="${product.id.product.name}">Product Name</td>
+                            <td th:text="${product.id.product.price} + ' ' + #{product.rub} + '.'">Product Price</td>
+                            <td th:text="${product.quantity}">Quantity</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <a class="btn orange accent-3" href="/products">
+                    <span> На главную </span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{fragments::footer}"></div>
+
+</body>
+</html>

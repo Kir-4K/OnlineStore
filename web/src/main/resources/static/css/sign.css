@@ -8,7 +8,7 @@ input[type=text], input[type=password] {
 }
 
 .sign button {
-    background-color: #ACE531;
+    background-color: #64dd17;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -24,5 +24,3 @@ input[type=text], input[type=password] {
 .container {
     padding: 16px;
 }
-
-

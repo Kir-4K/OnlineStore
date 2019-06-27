@@ -1,6 +1,7 @@
 package by.itacademy.kostusev.service;
 
 import by.itacademy.kostusev.dto.OnlineOrderDto;
+import by.itacademy.kostusev.entity.OnlineOrder;
 import by.itacademy.kostusev.mapper.OnlineOrderMapper;
 import by.itacademy.kostusev.repository.OnlineOrderRepository;
 import com.google.common.collect.Lists;
@@ -42,7 +43,7 @@ public class OnlineOrderService {
     }
 
     @Transactional
-    public void saveNewOrder(OnlineOrderDto dto) {
-        onlineOrderRepository.save(onlineOrderMapper.toEntity(dto));
+    public OnlineOrder saveNewOrder(OnlineOrderDto dto) {
+        return onlineOrderRepository.save(onlineOrderMapper.toEntity(dto));
     }
 }

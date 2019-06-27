@@ -1,5 +1,6 @@
 package by.itacademy.kostusev.dto;
 
+import by.itacademy.kostusev.entity.Customer;
 import by.itacademy.kostusev.entity.Payment;
 import by.itacademy.kostusev.entity.Status;
 import lombok.AllArgsConstructor;
@@ -19,5 +20,5 @@ public class OnlineOrderDto {
     private Payment payment;
     private LocalDateTime date;
     private Status status;
-    private CustomerDto customer;
+    private Customer customer;
 }

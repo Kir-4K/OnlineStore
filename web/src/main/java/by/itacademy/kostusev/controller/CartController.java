@@ -21,7 +21,7 @@ import static by.itacademy.kostusev.util.AttributeName.SUM;
 @Controller
 @RequestMapping(CART_URL)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@SessionAttributes({CART})
+@SessionAttributes({CART, SUM})
 public class CartController {
 
     private final CartService cartService;

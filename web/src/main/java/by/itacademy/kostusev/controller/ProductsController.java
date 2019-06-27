@@ -1,7 +1,7 @@
 package by.itacademy.kostusev.controller;
 
-import by.itacademy.kostusev.dto.utilityDto.PageDto;
 import by.itacademy.kostusev.dto.ProductDto;
+import by.itacademy.kostusev.dto.utilityDto.PageDto;
 import by.itacademy.kostusev.dto.utilityDto.ProductFilterDto;
 import by.itacademy.kostusev.service.CartService;
 import by.itacademy.kostusev.service.ProductService;
@@ -14,18 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import java.util.List;
-
 import static by.itacademy.kostusev.path.UrlPath.PRODUCT_URL;
 import static by.itacademy.kostusev.path.UrlPath.REDIRECT;
 import static by.itacademy.kostusev.path.ViewPath.PRODUCTS_VIEW;
 import static by.itacademy.kostusev.util.AttributeName.FILTERS;
+import static by.itacademy.kostusev.util.AttributeName.FILTER_PRODUCTS;
 import static by.itacademy.kostusev.util.AttributeName.PAGE;
-import static by.itacademy.kostusev.util.AttributeName.PRODUCTS;
 import static java.util.Optional.ofNullable;
 
 @Controller
-@RequestMapping(value = PRODUCT_URL)
+@RequestMapping(PRODUCT_URL)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @SessionAttributes(types = {ProductFilterDto.class, PageDto.class})
 public class ProductsController {
@@ -48,9 +46,7 @@ public class ProductsController {
 
         model.addAttribute(FILTERS, filter);
         model.addAttribute(PAGE, page);
-
-        List<ProductDto> productFilter = productService.findAll(filter, page);
-        model.addAttribute(PRODUCTS, productFilter);
+        model.addAttribute(FILTER_PRODUCTS, productService.findAll(filter, page));
 
         return PRODUCTS_VIEW;
     }
