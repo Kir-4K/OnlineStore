@@ -49,6 +49,6 @@ public class User implements BaseEntity<Long> {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Customer customer;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<News> news;
 }

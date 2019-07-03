@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,18 @@ public class UserService implements UserDetailsService {
                 .orElse(null);
     }
 
+    public UserDto findByUsername(String name) {
+        return Optional.ofNullable(userRepository.findByUsername(name))
+                .map(userMapper::toDto)
+                .orElse(null);
+    }
+
+    public UserDto getUserFromSession(Principal principal) {
+        return Optional.ofNullable(userRepository.findByUsername(principal.getName()))
+                .map(userMapper::toDto)
+                .orElse(null);
+    }
+
     public List<UserDto> findAll() {
         return newArrayList(userRepository.findAll())
                 .stream()
@@ -42,7 +55,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void registerNewAccount(UserDto dto) {
+    public void saveOrUpdateUser(UserDto dto) {
         userRepository.save(userMapper.toEntity(dto));
     }
 

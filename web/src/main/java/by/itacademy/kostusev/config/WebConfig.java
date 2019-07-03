@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"by.itacademy.kostusev.controller", "by.itacademy.kostusev.saving", "by.itacademy.kostusev.util"})
+@ComponentScan({"by.itacademy.kostusev.controller"})
 @Import(value = {InternationalizationConfig.class, ThymeleafConfig.class})
 public class WebConfig implements WebMvcConfigurer {
 

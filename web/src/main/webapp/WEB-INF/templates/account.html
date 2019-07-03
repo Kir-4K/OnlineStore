@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Account</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <div th:insert="~{fragments::links-meta}"></div>
+</head>
+<body>
+
+<div class="content">
+    <div class="w3-main">
+
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <!-- Account -->
+        <div class="w3-row-padding w3-padding-4">
+            <div th:each="user: ${currentUser}" class="w3-quarter w3-container w3-margin-bottom">
+                <div class="w3-container w3-white">
+                    <p th:text="${user}">username</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs md-tabs nav-justified" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#panel555" role="tab">
+                    <i class="fas fa-user pr-2"></i> Профиль
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#panel666" role="tab">
+                    <i class="fas fa-dolly"></i> Заказы
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab panels -->
+        <div class="tab-content">
+
+            <div class="tab-pane fade in show active" id="panel555" role="tabpanel">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <ul class="nav md-pills pills-primary flex-column" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#panel21" role="tab">
+                                    User Data
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#panel22" role="tab">
+                                    Customer Data
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#panel23" role="tab">
+                                    Address Data
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="tab-content vertical">
+
+                            <!-- User Change Form -->
+                            <div class="tab-pane fade in show active" id="panel21" role="tabpanel">
+                                <div class="container">
+                                    <form action="#" th:action="@{/account/update_password}" th:method="post">
+                                        <div>
+                                            <label for="password">Новый пароль: </label>
+                                        </div>
+                                        <div>
+                                            <input type="text" placeholder="Новый пароль" id="password" name="password"
+                                                   required>
+                                            <button type="submit">Сменить</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Customer Change Form -->
+                            <div class="tab-pane fade" id="panel22"
+                                 role="tabpanel">
+
+                                <!-- Void Customer Form -->
+                                <div class="container" th:if="${null == session.sessionCustomer}">
+                                    <form th:action="@{/account/update_customer}" th:method="post">
+                                        <div>
+                                            <label>Фамилия:
+                                                <input type="text" placeholder="Фамилия" name="lastName">
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>Имя:
+                                                <input type="text" placeholder="Имя" name="firstName">
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>Телефон:
+                                                <input type="text" placeholder="Телефон" name="phone" required>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>Email:
+                                                <input type="text" placeholder="Email" name="mail">
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <button type="submit">Добавить данные</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Session Customer Form -->
+                                <div class="container" th:if="${null != session.sessionCustomer}">
+                                    <form th:action="@{/account/update_customer}" th:method="post">
+                                        <div>
+                                            <label>Фамилия:
+                                                <input type="text" placeholder="Фамилия" name="lastName"
+                                                       th:value="${session.sessionCustomer.lastName}">
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>Имя:
+                                                <input type="text" placeholder="Имя" name="firstName"
+                                                       th:value="${session.sessionCustomer.firstName}">
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>Телефон:
+                                                <input type="text" placeholder="Телефон" name="phone"
+                                                       th:value="${session.sessionCustomer.phone}">
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>Email:
+                                                <input type="text" placeholder="Email" name="mail"
+                                                       th:value="${session.sessionCustomer.mail}">
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <button type="submit">Изменить</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                            <!-- Address Change Form -->
+                            <div class="tab-pane fade" id="panel23" role="tabpanel">
+
+                                <!-- Void Customer Address Form -->
+                                <div class="container" th:if="${null == session.sessionCustomer}">
+                                    <p>Заполни кастомера</p>
+                                </div>
+
+                                <!-- Session Customer Address Form -->
+                                <div class="container" th:if="${null != session.sessionCustomer}">
+
+                                    <!-- Void Address Form -->
+                                    <div class="container" th:if="${null == session.sessionCustomer.address}">
+                                        <form th:action="@{/account/update_customer_address}" th:method="post">
+                                            <div>
+                                                <label>Город:
+                                                    <input type="text" placeholder="Город" name="city">
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label>Улица:
+                                                    <input type="text" placeholder="Улица" name="street">
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label>Дом:
+                                                    <input type="text" placeholder="Дом" name="house">
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label>Квартира:
+                                                    <input type="text" placeholder="Квартира" name="apartment">
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <button type="submit">Добавить данные</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Session Address Form -->
+                                    <div class="container" th:if="${null != session.sessionCustomer.address}">
+                                        <form th:action="@{/account/update_customer_address}" th:method="post">
+                                            <div>
+                                                <label>Город:
+                                                    <input type="text" placeholder="Город" name="city"
+                                                           th:value="${session.sessionCustomer.address.city}">
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label>Улица:
+                                                    <input type="text" placeholder="Улица" name="street"
+                                                           th:value="${session.sessionCustomer.address.street}">
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label>Дом:
+                                                    <input type="text" placeholder="Дом" name="house"
+                                                           th:value="${session.sessionCustomer.address.house}">
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label>Квартира:
+                                                    <input type="text" placeholder="Квартира" name="apartment"
+                                                           th:value="${session.sessionCustomer.address.apartment}">
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <button type="submit">Изменить</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="panel666" role="tabpanel">
+                <p class="pt-5">
+                    Данные о Заказах Покупателя
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{fragments::footer}"></div>
+
+</body>
+</html>

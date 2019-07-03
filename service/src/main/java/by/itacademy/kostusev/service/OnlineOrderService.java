@@ -43,7 +43,7 @@ public class OnlineOrderService {
     }
 
     @Transactional
-    public OnlineOrder saveNewOrder(OnlineOrderDto dto) {
+    public OnlineOrder saveOrUpdateOrder(OnlineOrderDto dto) {
         return onlineOrderRepository.save(onlineOrderMapper.toEntity(dto));
     }
 }

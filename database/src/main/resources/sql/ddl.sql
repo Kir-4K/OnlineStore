@@ -53,7 +53,7 @@ CREATE TABLE online_store.online_order
     id          BIGSERIAL PRIMARY KEY,
     customer_id BIGINT REFERENCES online_store.customer (id) ON DELETE CASCADE ON UPDATE CASCADE,
     payment     VARCHAR(16),
-    date        TIMESTAMP NOT NULL,
+    date        TIMESTAMP(0) NOT NULL,
     status      VARCHAR(16)
 );
 

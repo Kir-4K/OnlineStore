@@ -1,4 +1,4 @@
-package by.itacademy.kostusev.saving;
+package by.itacademy.kostusev.saving.inOrders;
 
 import by.itacademy.kostusev.dto.OnlineOrderDto;
 import by.itacademy.kostusev.dto.utilityDto.CheckoutDto;
@@ -20,7 +20,7 @@ public class OrderSaving {
     private final OnlineOrderService onlineOrderService;
 
     public OnlineOrder saveNewOrderAndGet(CheckoutDto checkout, Customer customer) {
-        return onlineOrderService.saveNewOrder(OnlineOrderDto.builder()
+        return onlineOrderService.saveOrUpdateOrder(OnlineOrderDto.builder()
                 .status(Status.UNPROCESSED)
                 .date(LocalDateTime.now())
                 .payment(Payment.valueOf(checkout.getPayment()))

@@ -16,6 +16,7 @@ public class UserMapper {
 
     public UserDto toDto(User entity) {
         return UserDto.builder()
+                .id(entity.getId())
                 .username(entity.getUsername())
                 .password(entity.getPassword())
                 .build();
@@ -23,6 +24,7 @@ public class UserMapper {
 
     public User toEntity(UserDto dto) {
         return User.builder()
+                .id(dto.getId())
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .role(Role.CUSTOMER)

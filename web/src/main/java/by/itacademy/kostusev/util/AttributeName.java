@@ -13,6 +13,6 @@ public class AttributeName {
     public static final String FILTER_PRODUCTS = "filter_products";
     public static final String PRODUCTS_IN_ORDER = "products_in_order";
     public static final String ORDER_TIME = "order_time";
-    public static final String USERS = "users";
-    public static final String USER = "user";
+    public static final String SESSION_CUSTOMER = "sessionCustomer";
+    public static final String SESSION_USER = "sessionUser";
 }

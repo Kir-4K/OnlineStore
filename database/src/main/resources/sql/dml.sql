@@ -90,6 +90,15 @@ VALUES ((SELECT id FROM online_store.online_order WHERE id = 2),
        ((SELECT id FROM online_store.online_order WHERE id = 2),
         (SELECT id FROM online_store.product WHERE name = 'Зелье безумия'), 2);
 
+-- 3-й Заказ
+INSERT INTO online_store.online_order(customer_id, payment, date, status)
+VALUES ((SELECT id FROM online_store.customer WHERE phone = '80296122222'), 'CARD',
+        date_trunc('minute', CURRENT_TIMESTAMP(0)), 'ASSEMBLY');
+
+INSERT INTO online_store.product_order(online_order_id, product_id, quantity)
+VALUES ((SELECT id FROM online_store.online_order WHERE id = 3),
+        (SELECT id FROM online_store.product WHERE name = 'Святая вода'), 1);
+
 -- Блок Селекты
 /*SELECT c.*
 FROM online_store.user u

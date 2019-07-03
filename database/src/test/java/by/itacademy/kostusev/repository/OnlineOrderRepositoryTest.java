@@ -49,7 +49,7 @@ public class OnlineOrderRepositoryTest {
     @Test
     public void testFindAll() {
         List<OnlineOrder> orders = Lists.newArrayList(orderRepository.findAll());
-        assertThat(orders, hasSize(2));
+        assertThat(orders, hasSize(3));
     }
 
     @Test

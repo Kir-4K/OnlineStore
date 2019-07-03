@@ -44,6 +44,6 @@ public class Address implements BaseEntity<Long> {
     @Column(name = "apartment", nullable = true, length = 4)
     private String apartment;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private Set<Customer> customers;
 }

@@ -42,7 +42,7 @@ public class AddressService {
     }
 
     @Transactional
-    public Address saveNewAddress(AddressDto dto) {
+    public Address saveOrUpdateAddress(AddressDto dto) {
         return addressRepository.save(addressMapper.toEntity(dto));
     }
 }

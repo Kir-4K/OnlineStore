@@ -6,11 +6,11 @@ import by.itacademy.kostusev.entity.Address;
 import by.itacademy.kostusev.entity.Customer;
 import by.itacademy.kostusev.entity.OnlineOrder;
 import by.itacademy.kostusev.entity.ProductOrder;
-import by.itacademy.kostusev.saving.AddressSaving;
-import by.itacademy.kostusev.saving.CustomerSaving;
-import by.itacademy.kostusev.saving.OrderReportSaving;
-import by.itacademy.kostusev.saving.OrderSaving;
-import by.itacademy.kostusev.saving.ProductInOrderSaving;
+import by.itacademy.kostusev.saving.inOrders.AddressSaving;
+import by.itacademy.kostusev.saving.inOrders.CustomerSaving;
+import by.itacademy.kostusev.saving.inOrders.OrderReportSaving;
+import by.itacademy.kostusev.saving.inOrders.OrderSaving;
+import by.itacademy.kostusev.saving.inOrders.ProductInOrderSaving;
 import by.itacademy.kostusev.service.CartService;
 import by.itacademy.kostusev.service.ProductOrderService;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +60,9 @@ public class CheckoutController {
     }
 
     @PostMapping
-    public String checkout(@NotBlank @SessionAttribute(CART) Map<ProductDto, Integer> cart,
+    public String checkout(@SessionAttribute(CART) Map<ProductDto, Integer> cart,
                            @Valid CheckoutDto checkout,
+                           Principal principal,
                            BindingResult result,
                            Model model) throws IOException {
 
@@ -69,7 +70,7 @@ public class CheckoutController {
             return CHECKOUT_VIEW;
         }
 
-        ProductOrder order = makeAnOrder(checkout, cart);
+        ProductOrder order = makeAnOrder(checkout, cart, principal);
 
         model.addAttribute(ORDER, order);
         model.addAttribute(PRODUCTS_IN_ORDER, getCurrentProductsFromOrder(order));
@@ -80,9 +81,9 @@ public class CheckoutController {
         return REDIRECT + SUCCESSFUL_ORDER_VIEW;
     }
 
-    private ProductOrder makeAnOrder(CheckoutDto checkout, Map<ProductDto, Integer> cart) {
+    private ProductOrder makeAnOrder(CheckoutDto checkout, Map<ProductDto, Integer> cart, Principal principal) {
         Address address = addressSaving.getAddress(checkout);
-        Customer customer = customerSaving.getCustomer(checkout, address);
+        Customer customer = customerSaving.getCustomer(checkout, address, principal);
         OnlineOrder onlineOrder = orderSaving.saveNewOrderAndGet(checkout, customer);
         return productInOrderSaving.saveProductInOrder(cart, onlineOrder);
     }

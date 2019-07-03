@@ -16,12 +16,13 @@ import javax.validation.constraints.Size;
 public class CheckoutDto {
 
     @NotBlank
-    @Size(min = 2, max = 30)
+    @Size(min = 2)
     private String firstName;
 
     private String lastName;
 
     @NotBlank
+    @Size(min = 9)
     private String phone;
 
     @Email

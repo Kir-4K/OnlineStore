@@ -52,7 +52,7 @@ public class ProductOrderRepositoryTest {
     @Test
     public void testFindAll() {
         List<ProductOrder> productOrders = newArrayList(productOrderRepository.findAll());
-        assertThat(productOrders, hasSize(4));
+        assertThat(productOrders, hasSize(5));
     }
 
     @Test
