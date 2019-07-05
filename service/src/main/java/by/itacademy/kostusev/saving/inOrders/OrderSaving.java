@@ -19,12 +19,12 @@ public class OrderSaving {
 
     private final OnlineOrderService onlineOrderService;
 
-    public OnlineOrder saveNewOrderAndGet(CheckoutDto checkout, Customer customer) {
-        return onlineOrderService.saveOrUpdateOrder(OnlineOrderDto.builder()
-                .status(Status.UNPROCESSED)
-                .date(LocalDateTime.now())
-                .payment(Payment.valueOf(checkout.getPayment()))
-                .customer(customer)
-                .build());
+    public OnlineOrder saveOrderAndGet(CheckoutDto checkout, Customer customer) {
+        OnlineOrderDto newOrder = OnlineOrderDto.builder().build();
+        newOrder.setStatus(Status.UNPROCESSED);
+        newOrder.setDate(LocalDateTime.now());
+        newOrder.setPayment(Payment.valueOf(checkout.getPayment()));
+        newOrder.setCustomer(customer);
+        return onlineOrderService.saveOrUpdateOrder(newOrder);
     }
 }

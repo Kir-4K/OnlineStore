@@ -28,7 +28,7 @@ public class SignUpController {
 
     @PostMapping
     public String registerNewAccount(UserDto user) {
-        userService.saveOrUpdateUser(user);
+        userService.saveOrUpdate(user);
         return REDIRECT + SIGNIN_URL;
     }
 }

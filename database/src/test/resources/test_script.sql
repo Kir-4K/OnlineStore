@@ -69,7 +69,7 @@ VALUES (date_trunc('minute', CURRENT_TIMESTAMP(0)), 'Мы открылись!',
 -- 1-й Заказ
 INSERT INTO online_store.online_order(customer_id, payment, date, status)
 VALUES ((SELECT id FROM online_store.customer WHERE phone = '80291112221'), 'CASH',
-        date_trunc('minute', CURRENT_TIMESTAMP(0)), 'UNPROCESSED');
+        '2013-02-03 22:10:00-07'::timestamp, 'UNPROCESSED');
 
 INSERT INTO online_store.product_order(online_order_id, product_id, quantity)
 VALUES ((SELECT id FROM online_store.online_order WHERE id = 1),
@@ -82,7 +82,7 @@ VALUES ((SELECT id FROM online_store.online_order WHERE id = 1),
 -- 2-й Заказ
 INSERT INTO online_store.online_order(customer_id, payment, date, status)
 VALUES ((SELECT id FROM online_store.customer WHERE phone = '80296122222'), 'CASH',
-        date_trunc('minute', CURRENT_TIMESTAMP(0)), 'UNPROCESSED');
+        '2019-7-12 18:55:20-07'::timestamp, 'UNPROCESSED');
 
 INSERT INTO online_store.product_order(online_order_id, product_id, quantity)
 VALUES ((SELECT id FROM online_store.online_order WHERE id = 2),
@@ -93,7 +93,7 @@ VALUES ((SELECT id FROM online_store.online_order WHERE id = 2),
 -- 3-й Заказ
 INSERT INTO online_store.online_order(customer_id, payment, date, status)
 VALUES ((SELECT id FROM online_store.customer WHERE phone = '80296122222'), 'CARD',
-        date_trunc('minute', CURRENT_TIMESTAMP(0)), 'ASSEMBLY');
+        '2018-11-11 00:12:11-07'::timestamp, 'ASSEMBLY');
 
 INSERT INTO online_store.product_order(online_order_id, product_id, quantity)
 VALUES ((SELECT id FROM online_store.online_order WHERE id = 3),

@@ -15,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -36,14 +38,16 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto findByUsername(String name) {
-        return Optional.ofNullable(userRepository.findByUsername(name))
+        return ofNullable(userRepository.findByUsername(name))
                 .map(userMapper::toDto)
                 .orElse(null);
     }
 
-    public UserDto getUserFromSession(Principal principal) {
-        return Optional.ofNullable(userRepository.findByUsername(principal.getName()))
-                .map(userMapper::toDto)
+    public UserDto getSessionUser(Principal principal) {
+        return Stream.ofNullable(principal)
+                .map(Principal::getName)
+                .map(this::findByUsername)
+                .findFirst()
                 .orElse(null);
     }
 
@@ -55,13 +59,13 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void saveOrUpdateUser(UserDto dto) {
+    public void saveOrUpdate(UserDto dto) {
         userRepository.save(userMapper.toEntity(dto));
     }
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        return Optional.of(name)
+        return of(name)
                 .map(userRepository::findByUsername)
                 .map(user -> org.springframework.security.core.userdetails.User.builder()
                         .username(user.getUsername())

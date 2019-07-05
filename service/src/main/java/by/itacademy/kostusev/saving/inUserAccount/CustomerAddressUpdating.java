@@ -25,8 +25,7 @@ public class CustomerAddressUpdating {
     }
 
     private Customer saveCustomerAddress(CustomerDto sessionCustomer, AddressDto updateAddress) {
-        Address address = Address.builder().build();
-        sessionCustomer.setAddress(address);
+        sessionCustomer.setAddress(Address.builder().build());
         return updateCustomerAddress(sessionCustomer, updateAddress);
     }
 

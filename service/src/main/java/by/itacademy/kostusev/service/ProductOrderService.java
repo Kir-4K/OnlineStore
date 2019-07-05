@@ -1,7 +1,9 @@
 package by.itacademy.kostusev.service;
 
+import by.itacademy.kostusev.dto.CustomerDto;
 import by.itacademy.kostusev.entity.ProductOrder;
 import by.itacademy.kostusev.entity.QProductOrder;
+import by.itacademy.kostusev.mapper.CustomerMapper;
 import by.itacademy.kostusev.repository.ProductOrderRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Optional.ofNullable;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,6 +22,14 @@ import static com.google.common.collect.Lists.newArrayList;
 public class ProductOrderService {
 
     private final ProductOrderRepository productOrderRepository;
+    private final CustomerMapper customerMapper;
+
+    public List<ProductOrder> findByCustomer(CustomerDto customer) {
+        return ofNullable(customer)
+                .map(customerMapper::toEntity)
+                .map(productOrderRepository::findById_Order_Customer)
+                .orElse(null);
+    }
 
     public List<ProductOrder> getCurrentProductsFromOrder(ProductOrder productOrder) {
         Long orderId = productOrder.getId().getOrder().getId();

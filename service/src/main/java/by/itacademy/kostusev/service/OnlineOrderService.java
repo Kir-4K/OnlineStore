@@ -4,15 +4,14 @@ import by.itacademy.kostusev.dto.OnlineOrderDto;
 import by.itacademy.kostusev.entity.OnlineOrder;
 import by.itacademy.kostusev.mapper.OnlineOrderMapper;
 import by.itacademy.kostusev.repository.OnlineOrderRepository;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -29,14 +28,8 @@ public class OnlineOrderService {
                 .orElse(null);
     }
 
-    public OnlineOrderDto findByPhone(LocalDateTime dateTime) {
-        return onlineOrderRepository.findByDate(dateTime)
-                .map(onlineOrderMapper::toDto)
-                .orElse(null);
-    }
-
     public List<OnlineOrderDto> findAll() {
-        return Lists.newArrayList(onlineOrderRepository.findAll())
+        return newArrayList(onlineOrderRepository.findAll())
                 .stream()
                 .map(onlineOrderMapper::toDto)
                 .collect(toList());

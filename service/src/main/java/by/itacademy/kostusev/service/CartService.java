@@ -31,10 +31,8 @@ public class CartService {
     }
 
     public void deleteFromCart(Map<ProductDto, Integer> cart, ProductDto product) {
-        Integer merge = cart.merge(product, DEFAULT_VALUE, (a, b) -> a - b);
-        if (0 == merge) {
-            cart.remove(product);
-        }
+        cart.merge(product, DEFAULT_VALUE, (a, b) -> a - b);
+        cart.entrySet().removeIf(entry -> entry.getValue().equals(0));
     }
 
     public void clearCart(Map<ProductDto, Integer> cart) {

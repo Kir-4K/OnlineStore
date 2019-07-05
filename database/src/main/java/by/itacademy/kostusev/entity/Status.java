@@ -16,6 +16,10 @@ public enum Status {
 
     private String name;
 
+    public String getStatusName(){
+        return name;
+    }
+
     public static Status getByName(String name) {
         return Status.valueOf(name);
     }

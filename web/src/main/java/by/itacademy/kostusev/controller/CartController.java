@@ -21,7 +21,6 @@ import static by.itacademy.kostusev.path.ViewPath.CART_VIEW;
 import static by.itacademy.kostusev.util.AttributeName.CART;
 import static by.itacademy.kostusev.util.AttributeName.SESSION_CUSTOMER;
 import static by.itacademy.kostusev.util.AttributeName.SUM;
-import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 @Controller
 @RequestMapping(CART_URL)
@@ -34,7 +33,7 @@ public class CartController {
 
     @GetMapping
     public String getCart(Principal principal, Model model) {
-        CustomerDto customer = getSessionCustomer(principal);
+        CustomerDto customer = customerService.getSessionCustomer(principal);
         Map<ProductDto, Integer> cart = cartService.getCart();
         Double sum = cartService.getTotalSum(cart);
 
@@ -43,12 +42,6 @@ public class CartController {
         model.addAttribute(SESSION_CUSTOMER, customer);
 
         return CART_VIEW;
-    }
-
-    private CustomerDto getSessionCustomer(Principal principal) {
-        return (isNotEmpty(principal))
-                ? customerService.findByUsername(principal.getName())
-                : null;
     }
 
     @GetMapping("/clear")

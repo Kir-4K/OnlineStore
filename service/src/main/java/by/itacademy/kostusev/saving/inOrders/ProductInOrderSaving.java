@@ -24,6 +24,7 @@ public class ProductInOrderSaving {
 
     public ProductOrder saveProductInOrder(Map<ProductDto, Integer> cart, OnlineOrder order) {
         AtomicReference<ProductOrder> productOrder = new AtomicReference<>(new ProductOrder());
+
         cart.forEach((product, quantity) -> productOrder.set(productOrderService.save(ProductOrder.builder()
                 .quantity(quantity)
                 .id(ProductOrderPK.builder()

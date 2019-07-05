@@ -10,14 +10,11 @@ import by.itacademy.kostusev.mapper.UserMapper;
 import by.itacademy.kostusev.service.CustomerService;
 import by.itacademy.kostusev.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 
-import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.ObjectUtils.allNotNull;
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
@@ -34,17 +31,10 @@ public class CustomerSaving {
 
     public Customer getCustomer(CheckoutDto checkout, Address address, Principal principal) {
         CustomerDto customerByPhone = customerService.findByPhone(checkout.getPhone());
-        CustomerDto customerByUsername = customerService.findByUsername(
-                ofNullable(principal)
-                        .stream()
-                        .map(Principal::getName)
-                        .filter(StringUtils::isNotEmpty)
-                        .findFirst()
-                        .orElse(null)
-        );
-        return !allNotNull(customerByPhone, customerByUsername) ? saveCustomer(checkout, address, principal)
-                : isEmpty(principal) ? customerMapper.toEntity(firstNonNull(customerByPhone, customerByUsername))
-                : updateCustomer(checkout, address, principal, firstNonNull(customerByPhone, customerByUsername));
+        CustomerDto customerFromSession = customerService.getSessionCustomer(principal);
+        return (isEmpty(customerByPhone) && isEmpty(customerFromSession)) ? saveCustomer(checkout, address, principal)
+                : isEmpty(principal) ? customerMapper.toEntity(firstNonNull(customerByPhone, customerFromSession))
+                : updateCustomer(checkout, address, principal, firstNonNull(customerByPhone, customerFromSession));
     }
 
     private Customer saveCustomer(CheckoutDto checkout, Address address, Principal principal) {
@@ -63,6 +53,6 @@ public class CustomerSaving {
     }
 
     private User getUser(Principal principal) {
-        return isNotEmpty(principal) ? userMapper.toEntity(userService.getUserFromSession(principal)) : null;
+        return isNotEmpty(principal) ? userMapper.toEntity(userService.getSessionUser(principal)) : null;
     }
 }

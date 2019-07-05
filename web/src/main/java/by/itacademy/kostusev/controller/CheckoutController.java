@@ -84,7 +84,7 @@ public class CheckoutController {
     private ProductOrder makeAnOrder(CheckoutDto checkout, Map<ProductDto, Integer> cart, Principal principal) {
         Address address = addressSaving.getAddress(checkout);
         Customer customer = customerSaving.getCustomer(checkout, address, principal);
-        OnlineOrder onlineOrder = orderSaving.saveNewOrderAndGet(checkout, customer);
+        OnlineOrder onlineOrder = orderSaving.saveOrderAndGet(checkout, customer);
         return productInOrderSaving.saveProductInOrder(cart, onlineOrder);
     }
 
