@@ -23,13 +23,17 @@
             <form action="/signin" method="post">
                 <div class="container">
 
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">
+                            Введен неверный логин или пароль.
+                        </div>
+                    </div>
+
                     <label for="username"><b th:text="#{signin.username}">Username</b></label>
                     <input type="text" placeholder="Enter Username" id="username" name="username" required>
 
                     <label for="password"><b th:text="#{signin.password}">Password</b></label>
                     <input type="password" placeholder="Enter Password" id="password" name="password" required>
-
-                    <span th:if="${param.error}"> Вы ввели неверные данные! Повторите попытку. </span>
 
                     <div class="sign">
                         <button type="submit">Sign In</button>

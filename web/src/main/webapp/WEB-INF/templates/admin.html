@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Account</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <div th:insert="~{fragments::links-meta}"></div>
+</head>
+<body>
+
+<div class="content">
+    <div class="w3-main">
+
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs md-tabs nav-justified" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#panel555" role="tab">
+                    <i class="fas fa-dolly"></i> Заказы
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab panels -->
+        <div class="tab-content">
+
+            <div class="tab-pane fade in show active" id="panel555" role="tabpanel">
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <ul class="nav md-pills pills-primary flex-column" role="tablist">
+
+                            <div class="list-group">
+                                <a href="?status=UNPROCESSED"
+                                   class="list-group-item list-group-item-action list-group-item-primary">
+                                    Новые
+                                </a>
+                                <a href="?status=ASSEMBLY"
+                                   class="list-group-item list-group-item-action list-group-item-warning">
+                                    В комлектации
+                                </a>
+                                <a href="?status=SENT"
+                                   class="list-group-item list-group-item-action list-group-item-info">
+                                    Ждут своего новго владельца
+                                </a>
+                                <a href="?status=PAID"
+                                   class="list-group-item list-group-item-action list-group-item-success">
+                                    Доставленные и оплаченные
+                                </a>
+                                <a href="?status=CANCELLED"
+                                   class="list-group-item list-group-item-action list-group-item-danger">
+                                    Отмененные
+                                </a>
+                            </div>
+
+                        </ul>
+                    </div>
+
+                    <div class="col-md-10">
+                        <div class="tab-content vertical">
+
+                            <div class="accordion md-accordion" id="accordionEx" role="tablist"
+                                 aria-multiselectable="true">
+                                <div class="card" th:each="order: ${orders_by_status}">
+                                    <div class="card-header" role="tab" th:id="'heading' + ${order.key.id}">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx"
+                                           th:href="'#collapse' + ${order.key.id}" aria-expanded="false"
+                                           data-th-attr="aria-controls='collapse' + ${order.key.id}">
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h5 class="mb-0">
+                                                        <span>Заказ №</span>
+                                                        <span th:text="${order.key.id}"></span>
+                                                        <i class="fas fa-angle-down rotate-icon"></i>
+                                                    </h5>
+                                                </div>
+                                                <div class="col-2">
+                                                    <span>Стоимость: </span>
+                                                    <span th:text="${order.value.totalPrice}"></span>
+                                                    <span> руб.</span>
+                                                </div>
+                                                <div class="col-4">
+                                                    <span>Время заказа: </span>
+                                                    <span th:text="${{order.key.date}}"></span>
+                                                </div>
+                                                <div class="col-4">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div th:id="'collapse' + ${order.key.id}" class="collapse" role="tabpanel"
+                                         data-parent="#accordionEx"
+                                         data-th-attr="aria-labelledby='heading' + ${order.key.id}">
+                                        <div class="card-body">
+                                            <p>Телефон: <span th:text="${order.key.customer.phone}"></span></p>
+                                            <p>Имя: <span th:text="${order.key.customer.firstName}"></span></p>
+
+                                            <form id="change_status" th:method="post" th:action="@{/admin}">
+                                                <input type="hidden" name="newStatus" th:value="${'ASSEMBLY'}" class="input-xlarge">
+                                                <input type="hidden" name="onlineOrderId" th:value="${order.key.id}" class="input-xlarge">
+                                                <a href="javascript:{}" onclick="document.getElementById('change_status').submit();">
+                                                    Отправить на комплектацию
+                                                </a>
+                                            </form>
+
+                                            <table class="table" th:if="${order.key.customer.address}">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Город</th>
+                                                    <th scope="col">Улица</th>
+                                                    <th scope="col">Дом</th>
+                                                    <th scope="col">Квартира</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td th:text="${order.key.customer.address.city}"></td>
+                                                    <td th:text="${order.key.customer.address.street}"></td>
+                                                    <td th:text="${order.key.customer.address.house}"></td>
+                                                    <td th:text="${order.key.customer.address.apartment}"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Товар</th>
+                                                    <th scope="col">Цена</th>
+                                                    <th scope="col">Количество</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="product: ${order.value.product}">
+                                                    <td th:text="${product.product.name}"></td>
+                                                    <td th:text="${product.product.price}"></td>
+                                                    <td th:text="${product.quantity}"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{fragments::footer}"></div>
+
+</body>
+</html>

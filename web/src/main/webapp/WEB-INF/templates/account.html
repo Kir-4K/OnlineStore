@@ -15,15 +15,6 @@
         <!-- Header -->
         <div th:insert="~{fragments::header}"></div>
 
-        <!-- Account -->
-        <div class="w3-row-padding w3-padding-4">
-            <div th:each="user: ${currentUser}" class="w3-quarter w3-container w3-margin-bottom">
-                <div class="w3-container w3-white">
-                    <p th:text="${user}">username</p>
-                </div>
-            </div>
-        </div>
-
         <!-- Nav tabs -->
         <ul class="nav nav-tabs md-tabs nav-justified" role="tablist">
             <li class="nav-item">
@@ -76,7 +67,7 @@
                                             <label class="control-label" for="password">Новый пароль: </label>
                                         </div>
                                         <div>
-                                            <input type="text" placeholder="Новый пароль" id="password" name="password"
+                                            <input type="password" placeholder="Новый пароль" id="password" name="password"
                                                    class="input-xlarge" required>
                                             <button type="submit">Сменить</button>
                                         </div>

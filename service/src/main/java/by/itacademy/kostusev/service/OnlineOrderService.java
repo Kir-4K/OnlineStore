@@ -39,4 +39,9 @@ public class OnlineOrderService {
     public OnlineOrder saveOrUpdateOrder(OnlineOrderDto dto) {
         return onlineOrderRepository.save(onlineOrderMapper.toEntity(dto));
     }
+
+    @Transactional
+    public OnlineOrder updateStatus(OnlineOrderDto dto) {
+        return onlineOrderRepository.save(onlineOrderMapper.toEntityWithStatus(dto));
+    }
 }

@@ -12,7 +12,6 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,7 +30,6 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
 @Sql("classpath:test_script.sql")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class OnlineOrderRepositoryTest {
 
     @Autowired
@@ -83,11 +81,11 @@ public class OnlineOrderRepositoryTest {
         Optional<OnlineOrder> order = orderRepository.findById(1L);
         if (order.isPresent()) {
             order.get().setPayment(Payment.CASH);
-            order.get().setStatus(Status.PROCESSED);
+            order.get().setStatus(Status.ASSEMBLY);
             orderRepository.save(order.get());
         }
 
         Optional<OnlineOrder> orderUpdate = orderRepository.findById(1L);
-        orderUpdate.ifPresent(value -> assertThat(value.getStatus(), equalTo(Status.PROCESSED)));
+        orderUpdate.ifPresent(value -> assertThat(value.getStatus(), equalTo(Status.ASSEMBLY)));
     }
 }

@@ -34,6 +34,7 @@ public class CustomerService {
     public CustomerDto findByUsername(String username) {
         return ofNullable(username)
                 .map(customerRepository::findByUser_Username)
+                .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(customerMapper::toDto)
                 .findFirst()

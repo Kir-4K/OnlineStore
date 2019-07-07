@@ -27,4 +27,14 @@ public class OnlineOrderMapper {
                 .customer(dto.getCustomer())
                 .build();
     }
+
+    public OnlineOrder toEntityWithStatus(OnlineOrderDto dto) {
+        return OnlineOrder.builder()
+                .id(dto.getId())
+                .payment(dto.getPayment())
+                .date(dto.getDate())
+                .status(dto.getStatus())
+                .customer(dto.getCustomer())
+                .build();
+    }
 }

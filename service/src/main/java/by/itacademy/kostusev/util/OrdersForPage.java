@@ -16,7 +16,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class OrderForAccount {
+public class OrdersForPage {
 
     public Map<OnlineOrder, ProductListDto> getOrder(List<ProductOrder> orderList) {
         return ofNullable(orderList)

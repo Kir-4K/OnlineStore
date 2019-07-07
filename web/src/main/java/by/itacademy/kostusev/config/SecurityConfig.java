@@ -16,11 +16,11 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static by.itacademy.kostusev.entity.Role.ADMIN;
 import static by.itacademy.kostusev.entity.Role.CUSTOMER;
+import static by.itacademy.kostusev.path.UrlPath.ADMIN_URL;
 import static by.itacademy.kostusev.path.UrlPath.CUSTOMER_ACCOUNT_URL;
 import static by.itacademy.kostusev.path.UrlPath.FORBIDDEN;
 import static by.itacademy.kostusev.path.UrlPath.PRODUCT_URL;
 import static by.itacademy.kostusev.path.UrlPath.SIGNIN_URL;
-import static by.itacademy.kostusev.path.UrlPath.USER_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +28,7 @@ import static by.itacademy.kostusev.path.UrlPath.USER_URL;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] ADMIN_PAGES = {
-            USER_URL
+            ADMIN_URL
     };
 
     private static final String[] AUTHORIZED_USER_PAGES = {

@@ -11,7 +11,7 @@ import by.itacademy.kostusev.saving.inUserAccount.CustomerUpdating;
 import by.itacademy.kostusev.service.CustomerService;
 import by.itacademy.kostusev.service.ProductOrderService;
 import by.itacademy.kostusev.service.UserService;
-import by.itacademy.kostusev.util.OrderForAccount;
+import by.itacademy.kostusev.util.OrdersForPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,7 +40,7 @@ import static by.itacademy.kostusev.util.AttributeName.SESSION_USER;
 public class CustomerAccountController {
 
     private final ProductOrderService productOrderService;
-    private final OrderForAccount orderForAccount;
+    private final OrdersForPage ordersForPage;
     private final UserService userService;
     private final CustomerService customerService;
     private final CustomerUpdating customerUpdating;
@@ -51,7 +51,7 @@ public class CustomerAccountController {
         CustomerDto customer = customerService.findByUsername(principal.getName());
         UserDto user = userService.getSessionUser(principal);
         List<ProductOrder> orders = productOrderService.findByCustomer(customer);
-        Map<OnlineOrder, ProductListDto> customerOrders = orderForAccount.getOrder(orders);
+        Map<OnlineOrder, ProductListDto> customerOrders = ordersForPage.getOrder(orders);
 
         model.addAttribute(SESSION_USER, user);
         model.addAttribute(SESSION_CUSTOMER, customer);

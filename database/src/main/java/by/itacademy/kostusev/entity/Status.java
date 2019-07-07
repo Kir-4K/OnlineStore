@@ -9,7 +9,6 @@ public enum Status {
 
     CANCELLED("Отменен"),
     UNPROCESSED("Не обработан"),
-    PROCESSED("Обработан"),
     ASSEMBLY("Комплектуется"),
     SENT("Отправлен"),
     PAID("Оплачен");

@@ -16,4 +16,5 @@ public class AttributeName {
     public static final String SESSION_CUSTOMER = "sessionCustomer";
     public static final String SESSION_USER = "sessionUser";
     public static final String CUSTOMER_ORDERS = "customer_orders";
+    public static final String ORDERS_BY_STATUS = "orders_by_status";
 }

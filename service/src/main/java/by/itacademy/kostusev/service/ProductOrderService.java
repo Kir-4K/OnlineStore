@@ -3,6 +3,7 @@ package by.itacademy.kostusev.service;
 import by.itacademy.kostusev.dto.CustomerDto;
 import by.itacademy.kostusev.entity.ProductOrder;
 import by.itacademy.kostusev.entity.QProductOrder;
+import by.itacademy.kostusev.entity.Status;
 import by.itacademy.kostusev.mapper.CustomerMapper;
 import by.itacademy.kostusev.repository.ProductOrderRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -28,6 +29,12 @@ public class ProductOrderService {
         return ofNullable(customer)
                 .map(customerMapper::toEntity)
                 .map(productOrderRepository::findById_Order_Customer)
+                .orElse(null);
+    }
+
+    public List<ProductOrder> findByStatus(Status status) {
+        return ofNullable(status)
+                .map(productOrderRepository::findById_Order_Status)
                 .orElse(null);
     }
 
