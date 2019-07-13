@@ -2,6 +2,7 @@
 *.directory
 *target
 *out
+*orders_report
 .idea
 web.xml
 *log4j.log

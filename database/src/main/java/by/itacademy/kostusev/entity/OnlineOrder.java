@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +29,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = "productOrders")
+@ToString(exclude = {"productOrders"})
 @Entity
 @Table(name = "online_order", schema = "online_store", catalog = "online_store_repository")
 public class OnlineOrder implements BaseEntity<Long> {
@@ -41,6 +43,7 @@ public class OnlineOrder implements BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     private Payment payment;
 
+    @DateTimeFormat(pattern = "dd.MM.yyyy в HH:mm")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
@@ -48,10 +51,11 @@ public class OnlineOrder implements BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.order", fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
     private Set<ProductOrder> productOrders;
 }

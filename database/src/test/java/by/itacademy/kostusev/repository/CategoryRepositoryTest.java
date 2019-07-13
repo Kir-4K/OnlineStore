@@ -5,7 +5,6 @@ import by.itacademy.kostusev.entity.Category;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,7 +24,6 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
 @Sql("classpath:test_script.sql")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CategoryRepositoryTest {
 
     @Autowired

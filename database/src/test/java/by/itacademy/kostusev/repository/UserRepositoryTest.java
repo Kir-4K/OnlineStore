@@ -8,7 +8,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,7 +28,6 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
 @Sql("classpath:test_script.sql")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserRepositoryTest {
 
     @Autowired
@@ -61,7 +59,7 @@ public class UserRepositoryTest {
         List<User> allCustomer = newArrayList(userRepository.findAll(expression));
         List<String> loginList = allCustomer.stream().map(User::getUsername).collect(toList());
         assertThat(loginList, hasSize(2));
-        assertThat(loginList, contains("Karil", "Ivan"));
+        assertThat(loginList, contains("Max", "Ivan"));
     }
 
     @Test

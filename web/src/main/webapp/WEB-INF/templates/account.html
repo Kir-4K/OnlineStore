@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Account</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
+    <div th:insert="~{fragments::links-meta}"></div>
+</head>
+<body>
+
+<div class="content">
+    <div class="w3-main">
+
+        <!-- Header -->
+        <div th:insert="~{fragments::header}"></div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs md-tabs nav-justified" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#panel555" role="tab">
+                    <i class="fas fa-user pr-2"></i> Профиль
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#panel666" role="tab">
+                    <i class="fas fa-dolly"></i> Заказы
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab panels -->
+        <div class="tab-content">
+
+            <div class="tab-pane fade in show active" id="panel555" role="tabpanel">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <ul class="nav md-pills pills-primary flex-column" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#panel21" role="tab">
+                                    <h5> Сменить пароль </h5>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#panel22" role="tab">
+                                    <h5> Данные о покупателя </h5>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#panel23" role="tab">
+                                    <h5> Данные о доставке </h5>
+
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="tab-content vertical">
+
+                            <!-- User Change Form -->
+                            <div class="tab-pane fade in show active" id="panel21" role="tabpanel">
+                                <div class="container">
+                                    <form action="#" th:action="@{/account/update_password}" th:method="post">
+                                        <div>
+                                            <label class="control-label" for="password">Новый пароль: </label>
+                                        </div>
+                                        <div>
+                                            <input type="password" placeholder="Новый пароль" id="password"
+                                                   name="password"
+                                                   class="input-xlarge" required>
+                                            <button type="submit">Сменить</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Customer Change Form -->
+                            <div class="tab-pane fade" id="panel22"
+                                 role="tabpanel">
+
+                                <!-- Void Customer Form -->
+                                <div class="container" th:if="${null == session.sessionCustomer}">
+                                    <form th:action="@{/account/update_customer}" th:method="post">
+                                        <div class="control-group">
+                                            <label class="control-label">Фамилия: </label>
+                                            <div class="controls">
+                                                <input type="text" placeholder="Фамилия" name="lastName"
+                                                       class="input-xlarge">
+                                                <p class="help-block"></p>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Имя: </label>
+                                            <div class="controls">
+                                                <input type="text" placeholder="Имя" name="firstName"
+                                                       class="input-xlarge" required>
+                                                <p class="help-block"></p>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Телефон: </label>
+                                            <div class="controls">
+                                                <input type="text" placeholder="Телефон" name="phone"
+                                                       class="input-xlarge" required>
+                                                <p class="help-block"></p>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Email: </label>
+                                            <div class="controls">
+                                                <input type="text" placeholder="Email" name="mail"
+                                                       class="input-xlarge">
+                                                <p class="help-block"></p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="submit">Добавить данные</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                <!-- Session Customer Form -->
+                                <div class="container" th:if="${null != session.sessionCustomer}">
+                                    <form th:action="@{/account/update_customer}" th:method="post">
+                                        <div class="control-group">
+                                            <label class="control-label">Фамилия: </label>
+                                            <div class="controls">
+                                                <input type="text" placeholder="Фамилия" name="lastName"
+                                                       class="input-xlarge"
+                                                       th:value="${session.sessionCustomer.lastName}">
+                                                <p class="help-block"></p>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Имя: </label>
+                                            <div class="controls">
+                                                <input type="text" placeholder="Имя" name="firstName"
+                                                       class="input-xlarge"
+                                                       th:value="${session.sessionCustomer.firstName}" required>
+                                                <p class="help-block"></p>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Телефон: </label>
+                                            <div class="controls">
+                                                <input type="text" placeholder="Телефон" name="phone"
+                                                       class="input-xlarge"
+                                                       th:value="${session.sessionCustomer.phone}" required>
+                                                <p class="help-block"></p>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Email: </label>
+                                            <div class="controls">
+                                                <input type="text" placeholder="Email" name="mail" class="input-xlarge"
+                                                       th:value="${session.sessionCustomer.mail}">
+                                                <p class="help-block"></p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="submit">Изменить</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                            <!-- Address Change Form -->
+                            <div class="tab-pane fade" id="panel23" role="tabpanel">
+
+                                <!-- Void Customer Address Form -->
+                                <div class="container" th:if="${null == session.sessionCustomer}">
+                                    <p>Пожалуйста, заполните данные покупателя</p>
+                                </div>
+
+                                <!-- Session Customer Address Form -->
+                                <div class="container" th:if="${null != session.sessionCustomer}">
+
+                                    <!-- Void Address Form -->
+                                    <div class="container" th:if="${null == session.sessionCustomer.address}">
+                                        <form th:action="@{/account/update_customer_address}" th:method="post"
+                                              class="form-horizontal">
+                                            <div class="control-group">
+                                                <label class="control-label">Город: </label>
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Город" name="city"
+                                                           class="input-xlarge">
+                                                    <p class="help-block"></p>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Улица: </label>
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Улица" name="street"
+                                                           class="input-xlarge">
+                                                    <p class="help-block"></p>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Дом: </label>
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Дом" name="house"
+                                                           class="input-xlarge">
+                                                    <p class="help-block"></p>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Квартира: </label>
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Квартира" name="apartment"
+                                                           class="input-xlarge">
+                                                    <p class="help-block"></p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button type="submit">Добавить данные</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Session Address Form -->
+                                    <div class="container" th:if="${null != session.sessionCustomer.address}">
+                                        <form th:action="@{/account/update_customer_address}" method="post"
+                                              th:object="${updateAddress}" class="form-horizontal">
+
+                                            <div class="control-group">
+                                                <label class="control-label">Город: </label>
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Город" name="city"
+                                                           class="input-xlarge"
+                                                           th:value="${session.sessionCustomer.address.city}">
+                                                    <p class="help-block"></p>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label>Улица: </label>
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Улица" name="street"
+                                                           class="input-xlarge"
+                                                           th:value="${session.sessionCustomer.address.street}">
+                                                    <p class="help-block"></p>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label>Дом: </label>
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Дом" name="house"
+                                                           class="input-xlarge"
+                                                           th:value="${session.sessionCustomer.address.house}">
+                                                    <p class="help-block"></p>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label>Квартира: </label>
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Квартира" name="apartment"
+                                                           class="input-xlarge"
+                                                           th:value="${session.sessionCustomer.address.apartment}">
+                                                    <p class="help-block"></p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button type="submit">Изменить</button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="panel666" role="tabpanel">
+                <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+                    <!-- Void Orders -->
+                    <div th:if="${#maps.isEmpty(customer_orders)}">
+                        <br><br>
+                        <div class="w3-container">
+                            <a th:href="@{/products}" title="Go to Products">
+                                <p class="logo">
+                                    <img th:src="@{img/cart.png}" alt="Home">
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Orders -->
+                    <div class="card" th:each="order: ${customer_orders}">
+                        <div class="card-header" role="tab" th:id="'heading' + ${order.key.id}">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx"
+                               th:href="'#collapse' + ${order.key.id}" aria-expanded="false"
+                               data-th-attr="aria-controls='collapse' + ${order.key.id}">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <h5 class="mb-0">
+                                            <span>Заказ №</span>
+                                            <span th:text="${order.key.id}"></span>
+                                            <i class="fas fa-angle-down rotate-icon"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="col-2">
+                                        <span>Стоимость: </span>
+                                        <span th:text="${order.value.totalPrice}"></span>
+                                        <span> руб.</span>
+                                    </div>
+                                    <div class="col-4">
+                                        <span>Время заказа: </span>
+                                        <span th:text="${{order.key.date}}"></span>
+                                    </div>
+                                    <div class="col-4">
+                                        <span>Статус заказа: </span>
+                                        <span th:text="${order.key.status.getStatusName()}"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div th:id="'collapse' + ${order.key.id}" class="collapse" role="tabpanel"
+                             data-parent="#accordionEx"
+                             data-th-attr="aria-labelledby='heading' + ${order.key.id}">
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"><b>Товар</b></th>
+                                        <th scope="col"><b>Цена</b></th>
+                                        <th scope="col"><b>Количество</b></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="product: ${order.value.product}">
+                                        <td th:text="${product.product.name}">Name</td>
+                                        <td th:text="${product.product.price}">Price</td>
+                                        <td th:text="${product.quantity}">Quantity</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{fragments::footer}"></div>
+
+</body>
+</html>

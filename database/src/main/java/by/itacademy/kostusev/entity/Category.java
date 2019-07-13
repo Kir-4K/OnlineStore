@@ -35,6 +35,6 @@ public class Category implements BaseEntity<Long> {
     @Column(name = "name", nullable = false, length = 64, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Set<Product> products;
 }

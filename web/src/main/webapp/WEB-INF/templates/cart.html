@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Your cart</title>
     <link rel="stylesheet" type="text/css" th:href="@{css/site_style.css}">
@@ -13,11 +15,7 @@
         <!-- Header -->
         <div th:insert="~{fragments::header}"></div>
 
-        <!-- Logo -->
-        <div th:insert="~{fragments::logo}"></div>
-
-        <!-- Menu -->
-        <div th:insert="~{fragments::menu}"></div>
+        <div class="void"></div>
 
         <!-- Products in Cart -->
         <div th:if="${not #maps.isEmpty(cart)}">
@@ -54,7 +52,7 @@
                     </div>
                     <div class="col-xs-6 .col-md-2">
                         <div class="container">
-                            <a class="btn btn-warning btn-sm" href="/cart/clear" role="button">
+                            <a class="btn red btn-sm" href="/cart/clear" role="button">
                                 Очистить корзину
                             </a>
                         </div>
@@ -64,7 +62,9 @@
             </div>
 
             <div>
-                <a class="btn btn-success btn-ьв" href="/checkout"> Оформить заказ</a>
+                <a class="btn orange accent-3" href="/checkout">
+                    <span> Оформить заказ</span>
+                </a>
             </div>
 
         </div>

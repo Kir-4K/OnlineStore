@@ -15,10 +15,13 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static by.itacademy.kostusev.entity.Role.ADMIN;
+import static by.itacademy.kostusev.entity.Role.CUSTOMER;
+import static by.itacademy.kostusev.path.UrlPath.ADMIN_ORDERS_URL;
+import static by.itacademy.kostusev.path.UrlPath.ADMIN_PRODUCTS_URL;
+import static by.itacademy.kostusev.path.UrlPath.CUSTOMER_ACCOUNT_URL;
 import static by.itacademy.kostusev.path.UrlPath.FORBIDDEN;
 import static by.itacademy.kostusev.path.UrlPath.PRODUCT_URL;
 import static by.itacademy.kostusev.path.UrlPath.SIGNIN_URL;
-import static by.itacademy.kostusev.path.UrlPath.USER_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -26,22 +29,31 @@ import static by.itacademy.kostusev.path.UrlPath.USER_URL;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] ADMIN_PAGES = {
-            USER_URL
+            ADMIN_ORDERS_URL, ADMIN_PRODUCTS_URL
+    };
+
+    private static final String[] AUTHORIZED_USER_PAGES = {
+            CUSTOMER_ACCOUNT_URL
+    };
+
+    private static final String[] ANY_USER_PAGES = {
+            PRODUCT_URL
     };
 
     private final UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CharacterEncodingFilter filter = new CharacterEncodingFilter();
-        filter.setEncoding("UTF-8");
-        filter.setForceEncoding(true);
-        http.addFilterBefore(filter, CsrfFilter.class);
+        http.addFilterBefore(encodingFilter(), CsrfFilter.class);
         // @formatter:off
         http
+                .csrf()
+                    .disable()
                 .authorizeRequests()
                     .antMatchers(ADMIN_PAGES)
                         .hasAuthority(ADMIN.toString())
+                    .antMatchers(AUTHORIZED_USER_PAGES)
+                        .hasAuthority(CUSTOMER.toString())
                     .anyRequest()
                         .permitAll()
                 .and()
@@ -53,6 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .logoutSuccessUrl(PRODUCT_URL)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
                 .and()
                     .exceptionHandling().accessDeniedPage(FORBIDDEN)
                 .and()
@@ -63,6 +77,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CharacterEncodingFilter encodingFilter() {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        return filter;
     }
 
     @Bean

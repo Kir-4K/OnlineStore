@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Sign Up</title>
     <div th:insert="~{fragments::links-meta}"></div>
@@ -16,18 +18,15 @@
         <!-- Header -->
         <div th:insert="~{fragments::header}"></div>
 
-        <!-- Logo -->
-        <div th:insert="~{fragments::logo}"></div>
-
         <!-- Registration -->
         <div>
             <form action="/signup" method="post">
                 <div class="container">
 
-                    <label for="username"><b>Username</b></label>
+                    <label for="username"><b th:text="#{signin.username}">Username</b></label>
                     <input type="text" placeholder="Enter Username" id="username" name="username" required>
 
-                    <label for="password"><b>Password</b></label>
+                    <label for="password"><b th:text="#{signin.password}">Password</b></label>
                     <input type="password" placeholder="Enter Password" id="password" name="password" required>
 
 

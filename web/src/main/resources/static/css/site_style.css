@@ -9,21 +9,11 @@ a {
 }
 
 .headerMenu {
-    padding: 14px;
-    text-align: right;
-    border-radius: 3px;
-    background-color: #ACE531;
+    background-color: #64dd17;
 }
 
 .headerMenu a {
-    padding: 16px;
     color: #fff;
-    border-radius: 100%;
-}
-
-.headerMenu a:hover {
-    color: #ACE531;
-    background: #fff;
 }
 
 .logo {
@@ -50,12 +40,12 @@ a {
     color: #000000;
     padding: 10px;
     display: block;
-    border-bottom: 1px solid #ACE531;
+    border-bottom: 1px solid #64dd17;
     transition: 0.8s all;
 }
 
 .menu a:hover {
-    background: #ACE531;
+    background: #64dd17;
     color: #fff;
 }
 
@@ -92,7 +82,7 @@ ul ul ul {
     list-style: none;
     float: left;
     padding: 5px 10px;
-    border: 1px solid rgba(175, 240, 63, 0.47);
+    border: 1px solid #64dd17;
 }
 
 .table-view {
@@ -139,4 +129,8 @@ body {
 
 .footer {
     flex-shrink: 0;
+}
+
+.void {
+    height: 40px;
 }

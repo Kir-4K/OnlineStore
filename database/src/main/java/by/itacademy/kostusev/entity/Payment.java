@@ -4,12 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 
-@Getter
 @AllArgsConstructor
+@Getter
 public enum Payment {
 
     CASH("Наличными"),
     CARD("Банковской картой");
 
     private String name;
+
+    public static Payment getByName(String name) {
+        return Payment.valueOf(name);
+    }
 }
