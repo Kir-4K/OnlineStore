@@ -7,7 +7,6 @@ import by.itacademy.kostusev.util.ResourcesLoader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +24,7 @@ import static by.itacademy.kostusev.util.AttributeName.ORDER;
 import static by.itacademy.kostusev.util.AttributeName.ORDER_TIME;
 import static by.itacademy.kostusev.util.AttributeName.PRODUCTS_IN_ORDER;
 import static by.itacademy.kostusev.util.AttributeName.SUM;
+import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 
 @Controller
 @RequestMapping(SUCCESSFUL_ORDER_URL)
@@ -53,7 +53,7 @@ public class SuccessfulOrderController {
         String filename = PATH_PREFIX + order.getId().getOrder().getId() + PATH_SUFFIX;
         Resource file = loader.loadAsResource(filename);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getFilename())
+                .header(CONTENT_DISPOSITION, "attachment; filename=" + file.getFilename())
                 .body(file);
     }
 

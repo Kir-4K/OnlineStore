@@ -67,7 +67,8 @@
                                             <label class="control-label" for="password">Новый пароль: </label>
                                         </div>
                                         <div>
-                                            <input type="password" placeholder="Новый пароль" id="password" name="password"
+                                            <input type="password" placeholder="Новый пароль" id="password"
+                                                   name="password"
                                                    class="input-xlarge" required>
                                             <button type="submit">Сменить</button>
                                         </div>
@@ -314,10 +315,12 @@
                                         <span> руб.</span>
                                     </div>
                                     <div class="col-4">
-                                        <span>Статус заказа: </span>
-                                        <span th:text="${order.key.status.getStatusName()}"></span>
+                                        <span>Время заказа: </span>
+                                        <span th:text="${{order.key.date}}"></span>
                                     </div>
                                     <div class="col-4">
+                                        <span>Статус заказа: </span>
+                                        <span th:text="${order.key.status.getStatusName()}"></span>
                                     </div>
                                 </div>
                             </a>
@@ -327,14 +330,12 @@
                              data-parent="#accordionEx"
                              data-th-attr="aria-labelledby='heading' + ${order.key.id}">
                             <div class="card-body">
-                                <span>Время заказа: </span>
-                                <span th:text="${{order.key.date}}"></span>
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Товар</th>
-                                        <th scope="col">Цена</th>
-                                        <th scope="col">Количество</th>
+                                        <th scope="col"><b>Товар</b></th>
+                                        <th scope="col"><b>Цена</b></th>
+                                        <th scope="col"><b>Количество</b></th>
                                     </tr>
                                     </thead>
                                     <tbody>

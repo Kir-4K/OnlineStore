@@ -6,8 +6,8 @@ import by.itacademy.kostusev.dto.UserDto;
 import by.itacademy.kostusev.dto.utilityDto.ProductListDto;
 import by.itacademy.kostusev.entity.OnlineOrder;
 import by.itacademy.kostusev.entity.ProductOrder;
-import by.itacademy.kostusev.saving.inUserAccount.CustomerAddressUpdating;
-import by.itacademy.kostusev.saving.inUserAccount.CustomerUpdating;
+import by.itacademy.kostusev.service.saving.inUserAccount.CustomerAddressUpdating;
+import by.itacademy.kostusev.service.saving.inUserAccount.CustomerUpdating;
 import by.itacademy.kostusev.service.CustomerService;
 import by.itacademy.kostusev.service.ProductOrderService;
 import by.itacademy.kostusev.service.UserService;
@@ -70,7 +70,9 @@ public class CustomerAccountController {
     }
 
     @PostMapping("/update_customer")
-    public String updateCustomer(@SessionAttribute(SESSION_USER) UserDto sessionUser, CustomerDto updateCustomer, Principal principal) {
+    public String updateCustomer(@SessionAttribute(SESSION_USER) UserDto sessionUser,
+                                 CustomerDto updateCustomer,
+                                 Principal principal) {
         CustomerDto sessionCustomer = customerService.findByUsername(sessionUser.getUsername());
         customerUpdating.saveOrUpdateCustomer(updateCustomer, sessionCustomer, principal);
 
@@ -78,7 +80,8 @@ public class CustomerAccountController {
     }
 
     @PostMapping("/update_customer_address")
-    public String updateCustomerAddress(@SessionAttribute(SESSION_CUSTOMER) CustomerDto sessionCustomer, AddressDto updateAddress) {
+    public String updateCustomerAddress(@SessionAttribute(SESSION_CUSTOMER) CustomerDto sessionCustomer,
+                                        AddressDto updateAddress) {
         addressUpdating.saveOrUpdateCustomerAddress(updateAddress, sessionCustomer);
 
         return REDIRECT + CUSTOMER_ACCOUNT_URL;

@@ -70,7 +70,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" th:if="${not #authorization.expression('hasAuthority(''ADMIN'')')}">
                     <a class="nav-link" href="/cart">
                         <i class="fas fa-shopping-cart"></i>
                         <span th:text="#{header.cart}">Cart</span>
@@ -85,9 +85,10 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-info"
                          aria-labelledby="navbarDropdownMenuLink-5">
-                        <a class="dropdown-item" href="/admin">Заказы</a>
+                        <a class="dropdown-item" href="/admin_orders?status=UNPROCESSED">Заказы</a>
+                        <a class="dropdown-item" href="/admin_products">Товары</a>
                         <form id="logout_admin" method="post" th:action="@{/logout}">
-                            <a href="javascript:{}" onclick="document.getElementById('logout_admin').submit();">Log out</a>
+                            <a href="javascript:{}" onclick="document.getElementById('logout_admin').submit();">Выход</a>
                         </form>
                     </div>
                 </li>
@@ -100,9 +101,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-info"
                          aria-labelledby="navbarDropdownMenuLink-4">
-                        <a class="dropdown-item" href="/account">My account</a>
+                        <a class="dropdown-item" href="/account">Мой аккаунт</a>
                         <form id="logout" method="post" th:action="@{/logout}">
-                            <a href="javascript:{}" onclick="document.getElementById('logout').submit();">Log out</a>
+                            <a href="javascript:{}" onclick="document.getElementById('logout').submit();">Выход</a>
                         </form>
                     </div>
                 </li>

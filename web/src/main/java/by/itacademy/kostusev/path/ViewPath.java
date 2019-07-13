@@ -14,5 +14,6 @@ public class ViewPath {
     public static final String SIGNUP_VIEW = "signup";
     public static final String SIGNIN_VIEW = "signin";
     public static final String CUSTOMER_ACCOUNT_VIEW = "account";
-    public static final String ADMIN_VIEW = "admin";
+    public static final String ADMIN_ORDERS_VIEW = "admin_orders";
+    public static final String ADMIN_PRODUCTS_VIEW = "admin_products";
 }

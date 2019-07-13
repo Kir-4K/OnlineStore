@@ -36,19 +36,19 @@
                             <div class="list-group">
                                 <a href="?status=UNPROCESSED"
                                    class="list-group-item list-group-item-action list-group-item-primary">
-                                    Новые
+                                    Новые заказы
                                 </a>
                                 <a href="?status=ASSEMBLY"
                                    class="list-group-item list-group-item-action list-group-item-warning">
-                                    В комлектации
+                                    Комплектуются
                                 </a>
                                 <a href="?status=SENT"
                                    class="list-group-item list-group-item-action list-group-item-info">
-                                    Ждут своего новго владельца
+                                    В процессе доставки
                                 </a>
                                 <a href="?status=PAID"
                                    class="list-group-item list-group-item-action list-group-item-success">
-                                    Доставленные и оплаченные
+                                    Оплаченные
                                 </a>
                                 <a href="?status=CANCELLED"
                                    class="list-group-item list-group-item-action list-group-item-danger">
@@ -87,6 +87,8 @@
                                                     <span th:text="${{order.key.date}}"></span>
                                                 </div>
                                                 <div class="col-4">
+                                                    <span>Статус заказа: </span>
+                                                    <span th:text="${order.key.status.getStatusName()}"></span>
                                                 </div>
                                             </div>
                                         </a>
@@ -96,24 +98,16 @@
                                          data-parent="#accordionEx"
                                          data-th-attr="aria-labelledby='heading' + ${order.key.id}">
                                         <div class="card-body">
-                                            <p>Телефон: <span th:text="${order.key.customer.phone}"></span></p>
-                                            <p>Имя: <span th:text="${order.key.customer.firstName}"></span></p>
-
-                                            <form id="change_status" th:method="post" th:action="@{/admin}">
-                                                <input type="hidden" name="newStatus" th:value="${'ASSEMBLY'}" class="input-xlarge">
-                                                <input type="hidden" name="onlineOrderId" th:value="${order.key.id}" class="input-xlarge">
-                                                <a href="javascript:{}" onclick="document.getElementById('change_status').submit();">
-                                                    Отправить на комплектацию
-                                                </a>
-                                            </form>
+                                            <p><b>Телефон:</b> <span th:text="${order.key.customer.phone}"></span></p>
+                                            <p><b>Имя:</b> <span th:text="${order.key.customer.firstName}"></span></p>
 
                                             <table class="table" th:if="${order.key.customer.address}">
                                                 <thead>
                                                 <tr>
-                                                    <th scope="col">Город</th>
-                                                    <th scope="col">Улица</th>
-                                                    <th scope="col">Дом</th>
-                                                    <th scope="col">Квартира</th>
+                                                    <th scope="col"><b>Город</b></th>
+                                                    <th scope="col"><b>Улица</b></th>
+                                                    <th scope="col"><b>Дом</b></th>
+                                                    <th scope="col"><b>Квартира</b></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -128,9 +122,9 @@
                                             <table class="table">
                                                 <thead>
                                                 <tr>
-                                                    <th scope="col">Товар</th>
-                                                    <th scope="col">Цена</th>
-                                                    <th scope="col">Количество</th>
+                                                    <th scope="col"><b>Товар</b></th>
+                                                    <th scope="col"><b>Цена</b></th>
+                                                    <th scope="col"><b>Количество</b></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -141,6 +135,35 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
+
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-10">
+                                                    <div class="container">
+                                                        <form id="change_status" method="post" th:action="@{/admin_orders}">
+                                                            <input th:if="${param.status[0] == 'UNPROCESSED'}" type="hidden" name="newStatus" th:value="${'ASSEMBLY'}" class="input-xlarge">
+                                                            <input th:if="${param.status[0] == 'ASSEMBLY'}" type="hidden" name="newStatus" th:value="${'SENT'}" class="input-xlarge">
+                                                            <input th:if="${param.status[0] == 'SENT'}" type="hidden" name="newStatus" th:value="${'PAID'}" class="input-xlarge">
+                                                            <input type="hidden" name="onlineOrderId" th:value="${order.key.id}" class="input-xlarge">
+
+                                                            <button th:if="${param.status[0] == 'UNPROCESSED'}" type="submit" class="btn btn-success">Отправить на комплектацию</button>
+                                                            <button th:if="${param.status[0] == 'ASSEMBLY'}" type="submit" class="btn btn-success">Собран, отправить</button>
+                                                            <button th:if="${param.status[0] == 'SENT'}" type="submit" class="btn btn-success">Заказ доставлен и оплачен</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 .col-md-2">
+                                                    <div class="container">
+                                                        <form method="post" th:action="@{/admin_orders}">
+                                                            <input  type="hidden" name="newStatus" th:value="${'CANCELLED'}" class="input-xlarge">
+                                                            <input type="hidden" name="onlineOrderId" th:value="${order.key.id}" class="input-xlarge">
+                                                            <button th:if="${param.status[0] == 'UNPROCESSED'}" type="submit" class="btn btn-danger">Отменить</button>
+                                                            <button th:if="${param.status[0] == 'ASSEMBLY'}" type="submit" class="btn btn-danger">Отменить</button>
+                                                            <button th:if="${param.status[0] == 'SENT'}" type="submit" class="btn btn-danger">Отменить</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

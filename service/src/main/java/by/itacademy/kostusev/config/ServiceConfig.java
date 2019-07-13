@@ -1,9 +1,11 @@
 package by.itacademy.kostusev.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,8 +15,9 @@ import java.util.Properties;
 
 @Configuration
 @Import(DatabaseConfig.class)
+@PropertySource({"classpath:mail_sender.properties"})
 @ComponentScan({"by.itacademy.kostusev.service", "by.itacademy.kostusev.mapper",
-        "by.itacademy.kostusev.saving", "by.itacademy.kostusev.util"})
+        "by.itacademy.kostusev.util", "by.itacademy.kostusev.aspect"})
 public class ServiceConfig {
 
     @Bean
@@ -23,13 +26,16 @@ public class ServiceConfig {
     }
 
     @Bean
-    public JavaMailSender getJavaMailSender() {
+    public JavaMailSender getJavaMailSender(@Value("${mail.host}") String host,
+                                            @Value("${mail.port}") Integer port,
+                                            @Value("${mail.username}") String username,
+                                            @Value("${mail.password}") String password) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
+        mailSender.setHost(host);
+        mailSender.setPort(port);
 
-        mailSender.setUsername("potion.onlinestore@gmail.com");
-        mailSender.setPassword("p0ti0n!st0re");
+        mailSender.setUsername(username);
+        mailSender.setPassword(password);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

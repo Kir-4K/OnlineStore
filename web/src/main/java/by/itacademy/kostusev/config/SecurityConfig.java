@@ -16,7 +16,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static by.itacademy.kostusev.entity.Role.ADMIN;
 import static by.itacademy.kostusev.entity.Role.CUSTOMER;
-import static by.itacademy.kostusev.path.UrlPath.ADMIN_URL;
+import static by.itacademy.kostusev.path.UrlPath.ADMIN_ORDERS_URL;
+import static by.itacademy.kostusev.path.UrlPath.ADMIN_PRODUCTS_URL;
 import static by.itacademy.kostusev.path.UrlPath.CUSTOMER_ACCOUNT_URL;
 import static by.itacademy.kostusev.path.UrlPath.FORBIDDEN;
 import static by.itacademy.kostusev.path.UrlPath.PRODUCT_URL;
@@ -28,7 +29,7 @@ import static by.itacademy.kostusev.path.UrlPath.SIGNIN_URL;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] ADMIN_PAGES = {
-            ADMIN_URL
+            ADMIN_ORDERS_URL, ADMIN_PRODUCTS_URL
     };
 
     private static final String[] AUTHORIZED_USER_PAGES = {
@@ -46,6 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(encodingFilter(), CsrfFilter.class);
         // @formatter:off
         http
+                .csrf()
+                    .disable()
                 .authorizeRequests()
                     .antMatchers(ADMIN_PAGES)
                         .hasAuthority(ADMIN.toString())

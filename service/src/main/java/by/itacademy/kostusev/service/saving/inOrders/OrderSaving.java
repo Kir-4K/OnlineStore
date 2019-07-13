@@ -1,6 +1,7 @@
-package by.itacademy.kostusev.saving.inOrders;
+package by.itacademy.kostusev.service.saving.inOrders;
 
 import by.itacademy.kostusev.dto.OnlineOrderDto;
+import by.itacademy.kostusev.dto.utilityDto.ChangeOrderStatusDto;
 import by.itacademy.kostusev.dto.utilityDto.CheckoutDto;
 import by.itacademy.kostusev.entity.Customer;
 import by.itacademy.kostusev.entity.OnlineOrder;
@@ -26,5 +27,11 @@ public class OrderSaving {
         newOrder.setPayment(Payment.valueOf(checkout.getPayment()));
         newOrder.setCustomer(customer);
         return onlineOrderService.saveOrUpdateOrder(newOrder);
+    }
+
+    public void updateOrderStatus(ChangeOrderStatusDto orderStatus) {
+        OnlineOrderDto newOrder = onlineOrderService.findById(orderStatus.getOnlineOrderId());
+        newOrder.setStatus(orderStatus.getNewStatus());
+        onlineOrderService.saveOrUpdateOrder(newOrder);
     }
 }

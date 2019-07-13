@@ -1,4 +1,4 @@
-package by.itacademy.kostusev.saving.inUserAccount;
+package by.itacademy.kostusev.service.saving.inUserAccount;
 
 import by.itacademy.kostusev.dto.AddressDto;
 import by.itacademy.kostusev.dto.CustomerDto;

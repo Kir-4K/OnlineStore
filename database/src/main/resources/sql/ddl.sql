@@ -17,7 +17,8 @@ CREATE TABLE online_store.product
     price       DOUBLE PRECISION NOT NULL,
     number      INTEGER          DEFAULT 0,
     rating      DOUBLE PRECISION DEFAULT 0,
-    description VARCHAR(1024)
+    description VARCHAR(1024),
+    version     BIGINT
 );
 
 CREATE TABLE online_store.user

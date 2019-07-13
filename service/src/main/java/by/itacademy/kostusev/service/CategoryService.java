@@ -14,12 +14,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public Category findBy(Long id) {
-        return categoryRepository.findById(id)
-                .orElse(null);
-    }
-
-    public Category findBy(String name) {
+    public Category findByName(String name) {
         return categoryRepository.findByName(name)
                 .orElse(null);
     }

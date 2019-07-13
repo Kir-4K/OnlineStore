@@ -10,11 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.ofNullable;
 
 @Service
@@ -24,12 +21,6 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
-
-    public CustomerDto findById(Long id) {
-        return customerRepository.findById(id)
-                .map(customerMapper::toDto)
-                .orElse(null);
-    }
 
     public CustomerDto findByUsername(String username) {
         return ofNullable(username)
@@ -53,13 +44,6 @@ public class CustomerService {
         return customerRepository.findByPhone(phone)
                 .map(customerMapper::toDto)
                 .orElse(null);
-    }
-
-    public List<CustomerDto> findAll() {
-        return newArrayList(customerRepository.findAll())
-                .stream()
-                .map(customerMapper::toDto)
-                .collect(toList());
     }
 
     @Transactional

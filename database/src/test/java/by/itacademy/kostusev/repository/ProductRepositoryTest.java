@@ -134,7 +134,7 @@ public class ProductRepositoryTest {
             productRepository.save(product);
 
             Optional<Product> productUpdate = productRepository.findById(1L);
-            productUpdate.ifPresent(value -> assertThat(value.getName(), equalTo("Святая вода (Новинка!)")));
+            productUpdate.ifPresent(value -> assertThat(value.getName(), equalTo("Ласточка")));
         }
     }
 }

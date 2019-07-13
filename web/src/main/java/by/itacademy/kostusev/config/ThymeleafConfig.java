@@ -23,7 +23,7 @@ public class ThymeleafConfig {
         templateResolver.setSuffix(SUFFIX);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding(UTF_8.name());
-        templateResolver.setCacheable(true);
+        templateResolver.setCacheable(false);
         return templateResolver;
     }
 
@@ -42,6 +42,8 @@ public class ThymeleafConfig {
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setOrder(1);
         viewResolver.setCharacterEncoding(UTF_8.name());
+        viewResolver.setCacheLimit(1);
+        viewResolver.clearCache();
         return viewResolver;
     }
 

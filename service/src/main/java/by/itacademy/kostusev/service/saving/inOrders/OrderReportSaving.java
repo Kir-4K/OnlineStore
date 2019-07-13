@@ -1,4 +1,4 @@
-package by.itacademy.kostusev.saving.inOrders;
+package by.itacademy.kostusev.service.saving.inOrders;
 
 import by.itacademy.kostusev.entity.ProductOrder;
 import by.itacademy.kostusev.service.ProductOrderService;

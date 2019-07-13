@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import java.util.Set;
 
 @Data
@@ -27,6 +30,7 @@ import java.util.Set;
 @ToString(exclude = "productOrders")
 @Entity
 @Table(name = "product", schema = "online_store", catalog = "online_store_repository")
+@OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Product implements BaseEntity<Long> {
 
     @Id
@@ -53,6 +57,9 @@ public class Product implements BaseEntity<Long> {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    @OneToMany(mappedBy = "id.product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.product", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
     private Set<ProductOrder> productOrders;
+
+    @Version
+    private Long version;
 }

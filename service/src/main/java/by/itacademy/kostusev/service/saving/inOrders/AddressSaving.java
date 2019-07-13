@@ -1,4 +1,4 @@
-package by.itacademy.kostusev.saving.inOrders;
+package by.itacademy.kostusev.service.saving.inOrders;
 
 import by.itacademy.kostusev.dto.AddressDto;
 import by.itacademy.kostusev.dto.utilityDto.CheckoutDto;

@@ -19,6 +19,9 @@ import java.util.List;
 @SessionScope
 public class EmailService {
 
+    private static final String MAIL = "potion.onlinestore@gmail.com";
+    private static final String SUBJECT = "PotionStore: Заказ №";
+
     private final JavaMailSender javaMailSender;
     private final ReportText reportText;
 
@@ -26,8 +29,8 @@ public class EmailService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
         mailMessage.setTo(mail);
-        mailMessage.setFrom("potion.onlinestore@gmail.com");
-        mailMessage.setSubject("PotionStore: Заказ №" + order.getId().getOrder().getId());
+        mailMessage.setFrom(MAIL);
+        mailMessage.setSubject(SUBJECT + order.getId().getOrder().getId());
         mailMessage.setText(reportText.getReportText(order) + reportText.getProductInReportText(products));
 
         javaMailSender.send(mailMessage);

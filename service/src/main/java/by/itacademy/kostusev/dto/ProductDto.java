@@ -14,11 +14,12 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = {"id"})
 public class ProductDto {
 
-    private String id;
+    private Long id;
     private String name;
     private String price;
     private String number;
     private String rating;
     private String description;
     private Category category;
+    private Long version;
 }

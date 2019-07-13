@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -32,13 +33,19 @@ public class UserService implements UserDetailsService {
     private final UserMapper userMapper;
 
     public UserDto findById(Long id) {
-        return userRepository.findById(id)
+        return Stream.ofNullable(id)
+                .map(userRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(userMapper::toDto)
+                .findFirst()
                 .orElse(null);
     }
 
     public UserDto findByUsername(String name) {
         return ofNullable(userRepository.findByUsername(name))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(userMapper::toDto)
                 .orElse(null);
     }
@@ -67,6 +74,8 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         return of(name)
                 .map(userRepository::findByUsername)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(user -> org.springframework.security.core.userdetails.User.builder()
                         .username(user.getUsername())
                         .password(user.getPassword())

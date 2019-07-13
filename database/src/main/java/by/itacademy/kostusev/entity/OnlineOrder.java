@@ -29,7 +29,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = "productOrders")
+@ToString(exclude = {"productOrders"})
 @Entity
 @Table(name = "online_order", schema = "online_store", catalog = "online_store_repository")
 public class OnlineOrder implements BaseEntity<Long> {
@@ -55,6 +55,7 @@ public class OnlineOrder implements BaseEntity<Long> {
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id.order", fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
     private Set<ProductOrder> productOrders;
 }
