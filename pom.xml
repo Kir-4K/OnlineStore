@@ -30,7 +30,7 @@
         <thymeleaf-extras.version>3.0.4.RELEASE</thymeleaf-extras.version>
         <spring.version>5.1.7.RELEASE</spring.version>
         <spring-data.version>2.1.8.RELEASE</spring-data.version>
-        <spring-security.version>5.1.5.RELEASE</spring-security.version>
+        <spring-security.version>5.2.10.RELEASE</spring-security.version>
         <spring-data-rest-webmvc.version>3.1.5.RELEASE</spring-data-rest-webmvc.version>
         <hibernate.version>5.4.2.Final</hibernate.version>
         <querydsl.version>4.2.1</querydsl.version>
