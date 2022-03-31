@@ -28,7 +28,7 @@
         <jstl.version>1.2</jstl.version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <thymeleaf-extras.version>3.0.4.RELEASE</thymeleaf-extras.version>
-        <spring.version>5.1.7.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <spring-data.version>2.1.8.RELEASE</spring-data.version>
         <spring-security.version>5.1.5.RELEASE</spring-security.version>
         <spring-data-rest-webmvc.version>3.1.5.RELEASE</spring-data-rest-webmvc.version>
